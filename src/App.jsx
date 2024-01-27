@@ -1,14 +1,12 @@
-import React from 'react'
-import PollApp from './component/PollApp'
+import React from "react";
+import PollApp from "./component/PollApp";
 
 function App() {
   return (
-   <>
-   
-<PollApp/>
-
-   </>
-  )
+    <>
+      <PollApp />
+    </>
+  );
 }
 
-export default App
+export default App;

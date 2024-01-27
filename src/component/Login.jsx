@@ -1,15 +1,18 @@
-import { Box, Button, TextField, Grid, Link, Stack } from "@mui/material";
+
 
 import React from "react";
+import { Box, Button, TextField, Grid, Stack } from "@mui/material";
 import { signUpSchema } from "../schemas";
 import { useFormik } from "formik";
-
+import { Link } from 'react-router-dom'; 
 const initialValues = {
   name: "",
   password: "",
 };
 
-function Loginpage() {
+function Login({data}) {
+
+  console.log(data ,'dfghjkl' );
   const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
     useFormik({
       initialValues,
@@ -20,6 +23,8 @@ function Loginpage() {
     });
 
   return (
+
+    <form  onSubmit={handleSubmit}>
     <Box sx={{ marginTop: 20 }}>
       <Stack
         spacing={3}
@@ -31,8 +36,7 @@ function Loginpage() {
           padding: 3,
           boxShadow: 2,
         }}
-        component="form"
-        onSubmit={handleSubmit}
+     
       >
         <Box sx={{ color: "blue" }}>
           <h2 className="font-bold">Login...</h2>
@@ -76,21 +80,21 @@ function Loginpage() {
           Login
         </Button>
         <Grid container>
-        <Grid item xs>
-          <Link href="#" variant="body2">
-            Forgot password?
-          </Link>
+          <Grid item xs>
+            <Link to="#"  className="text-blue-900" variant="body2">
+              Forgot password?
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link to="./signup" className="text-blue-900">
+              Don't have an account? Register now
+            </Link>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Link href="#" variant="body2">
-            {"Don't have an account? Sign Up"}
-          </Link>
-        </Grid>
-      </Grid>
       </Stack>
-     
     </Box>
+    </form>
   );
 }
 
-export default Loginpage;
+export default Login;

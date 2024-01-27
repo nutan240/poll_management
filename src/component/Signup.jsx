@@ -1,8 +1,8 @@
 import React from "react";
-import { Box, Button, TextField, Grid, Stack, Link } from "@mui/material";
+import { Box, Button, TextField, Grid, Stack, FormControl, InputLabel, Select, MenuItem, FormHelperText, } from "@mui/material";
 import { signUpSchema } from "../schemas";
 import { useFormik } from "formik";
-// import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const initialValues = {
   name: "",
@@ -12,7 +12,6 @@ const initialValues = {
 };
 
 function Signup() {
-  //   const navigate = useNavigate()
 
   const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
     useFormik({
@@ -25,6 +24,7 @@ function Signup() {
 
   return (
     <>
+    <form   onSubmit={handleSubmit}>
       <Box sx={{ marginTop: 20 }}>
         <Stack
           spacing={3}
@@ -34,10 +34,9 @@ function Signup() {
             border: "2px solid #8080803b",
             borderRadius: 2,
             padding: 3,
-            boxShadow: 2,
+            boxShadow: 3,
           }}
-          component="form"
-          onSubmit={handleSubmit}
+          
         >
           <Box sx={{ color: "blue" }}>
             <h2 className="font-bold">Sign in...</h2>
@@ -112,6 +111,24 @@ function Signup() {
           {errors.confirm_password && touched.confirm_password ? (
             <p className="text-red-600">{errors.confirm_password}</p>
           ) : null}
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel id="demo-simple-select-standard-label">Role</InputLabel>
+        <Select
+          labelId="demo-simple-select-standard-label"
+          id="demo-simple-select-standard"
+        //   value={age}
+          onChange={handleChange}
+          label="Role"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={10}>Admin</MenuItem>
+          <MenuItem value={20}>User</MenuItem>
+        </Select>
+      </FormControl>
+
+          
 
           <Button variant="contained" type="submit">
             Login
@@ -119,11 +136,14 @@ function Signup() {
           <Grid container>
             <Grid item xs></Grid>
             <Grid item>
-              <Link>already have account ? Login</Link>
+              <Link to={'/'} className="sign-up mt-3 text-dark">
+              already have account ? Login
+                    </Link>
             </Grid>
           </Grid>
         </Stack>
       </Box>
+      </form>
     </>
   );
 }
