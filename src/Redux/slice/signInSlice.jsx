@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Instance from "../../axios/axios";
+
 const initialState = {
   loading: false,
   isError: false,
   isSuccess: false,
-  data: {},
+  data: [],
 };
 
- export const signUp = createSlice({
-  name: "signUp",
+const signIn = createSlice({
+  name: "signIn",
   initialState: initialState,
   reducers: {
     startLoading: (state) => {
@@ -27,7 +28,7 @@ const initialState = {
       state.isSuccess = false;
       state.errorMessage = action.payload;
     },
-    signupResetReducer(state) {
+    resetReducer(state) {
       state.isError = false;
       state.loading = false;
       state.isSuccess = false;
@@ -36,18 +37,19 @@ const initialState = {
   },
 });
 
-export const signUpApi = (payload) => async (dispatch) => {
+export const signInApi = (payload) => async (dispatch) => {
+  dispatch(startLoading());
   try {
     let response = await Instance.post(
-      `add_user?username=${payload.name}&password=${payload.password}&role=${payload.role}`
-      
+      `login?username=${payload.name}&password=${payload.password}`
     );
     dispatch(loginSuccessful(response.data));
   } catch (e) {
     dispatch(hasError(e));
-    console.log(e,'sdffsf');
+    console.log(e,'afadfadf');
   }
 };
-export const { startLoading, loginSuccessful, hasError, signupResetReducer } = signUp.actions;
 
-export default signUp.reducer;
+export const { startLoading, loginSuccessful, hasError, resetReducer } = signIn.actions;
+
+export default signIn.reducer;

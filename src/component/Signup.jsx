@@ -1,192 +1,189 @@
-import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
-  TextField,
-  Grid,
-  Stack,
   FormControl,
   InputLabel,
-  Select,
   MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { signUpApi, signupResetReducer, startLoading } from "../Redux/slice/signUpslice";
 import { useFormik } from "formik";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import { signUpSchema } from "../schemas";
+// import "../components/stylecss/style.css";
+import { useSelector } from "react-redux";
+import {
+  signupResetReducer,
+  signUpApi,
+  startLoading,
+} from "../Redux/slice/signUpslice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CircularProgress from "@mui/material/CircularProgress";
+import { dispatch } from "../Redux/store/store";
 
-function Signup() {
-  const dispatch = useDispatch();
-  const location = useNavigate();
+const SignUp = () => {
+  const navigate = useNavigate();
   const [buttonDisable, setButtonDisable] = useState(false);
-  const signUpslice = useSelector((state) => state.signUp);
-  const status = signUpslice.loading;
-
+  const signupSlice = useSelector((state) => state.signUp );
+  const statuS = signupSlice.loading;
+console.log(signupSlice,'dfghj');
   useEffect(() => {
-    if (signUpslice.data.error === 1) {
+    if (signupSlice.data.error === 1) {
+      toast.error("User already exists!");
       setButtonDisable(false);
       dispatch(signupResetReducer());
-
-    }
-     else if (signUpslice.data.error === 0) {
+    } else if (signupSlice.data.error === 0) {
       setButtonDisable(true);
       dispatch(signupResetReducer());
-      location("/", { state: formik.values });
+      navigate("/");
     }
-  }, [signUpslice.isSuccess]);
+  }, [signupSlice.isSuccess]);
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
-    useFormik({
-      initialValues: {
-        name: "",
-        password: "",
-        confirm_password: "",
-        role: "Guest",
-      },
-      validationSchema: signUpSchema,
-      onSubmit:async (values) => {
-        console.log("Form submitted with values:", values);
 
-        try {
-          dispatch(startLoading());
-          await dispatch(signUpApi(values));
-        } catch (error) {
-          dispatch(signupResetReducer());
-        }
-      },
-    });
-
-  useEffect(() => {
-    // Here, you can dispatch the resetReducer action
-    return () => {
-      dispatch(signupResetReducer());
-    };
-  }, [dispatch]);
-
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      password: "",
+      confirm_password: "",
+      role: "Guest",
+    },
+    validationSchema: signUpSchema,
+    onSubmit: (values) => {
+      try {
+        dispatch(startLoading());
+        dispatch(signUpApi(values));
+        
+      } catch (error) {
+        dispatch(signupResetReducer());
+      }
+      formik.resetForm()
+    
+    },
+  });
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <Box sx={{ marginTop: 20 }}>
+      <ToastContainer />
+      <Box className="formBodyStyle">
+        <Stack direction={"column"} sx={{width:500 ,margin:"auto"}} className="form_container">
+          <Typography variant="h4">SIGN UP</Typography>
           <Stack
-            spacing={3}
-            sx={{
-              width: "40%",
-              m: "auto",
-              border: "2px solid #8080803b",
-              borderRadius: 2,
-              padding: 3,
-              boxShadow: 3,
-            }}
+            sx={{ width: "100%", fontSize: "19px" }}
+            direction={"column"}
+            spacing={1}
+            component="form"
+            onSubmit={formik.handleSubmit}
           >
-            <Box sx={{ color: "blue" }}>
-              <h2 className="font-bold">Sign in...</h2>
-            </Box>
-            <label>
-              <h3 className="font-bold">Username</h3>
-            </label>
+            <Typography variant="h6" sx={{ textAlign: "left" }}>
+              User Name :
+            </Typography>
             <TextField
-              id="outlined-basic"
-              label="username"
-              variant="outlined"
+              fullWidth
+              label="User Name"
+              type="name"
               name="name"
-              placeholder="enter username.."
-              value={values.name}
-              p
-              onChange={handleChange}
-              onBlur={handleBlur}
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              helperText={
+                <Typography variant="p" color={"red"}>
+                  {formik.errors.name &&
+                    formik.touched.name &&
+                    formik.errors.name}
+                </Typography>
+              }
             />
-            {errors.name && touched.name ? (
-              <p className="text-red-600">{errors.name}</p>
-            ) : null}
-
-            <label className="font-bold">email</label>
+            <Typography variant="h6" sx={{ textAlign: "left" }}>
+              Password :
+            </Typography>
             <TextField
-              id="outlined-basic"
-              label="email..."
-              variant="outlined"
-              name="email"
-              placeholder="enter username.."
-              value={values.email}
-              p
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            {errors.email && touched.email ? (
-              <p className="text-red-600">{errors.email}</p>
-            ) : null}
-            <label>
-              <h3 className="font-bold">password</h3>
-            </label>
-
-            <TextField
-              id="outlined-basic"
-              label="password"
-              variant="outlined"
-              placeholder="enter password"
+              fullWidth
+              label="Password"
               type="password"
               name="password"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              helperText={
+                <Typography variant="p" color={"red"}>
+                  {formik.errors.password &&
+                    formik.touched.password &&
+                    formik.errors.password}
+                </Typography>
+              }
             />
-            {errors.password && touched.password ? (
-              <p className="text-red-600">{errors.password}</p>
-            ) : null}
-
-            <label>
-              <h3 className="font-bold">Confirm Password</h3>
-            </label>
-
+            <Typography variant="h6" sx={{ textAlign: "left" }}>
+              Confirm Password :
+            </Typography>
             <TextField
-              id="outlined-basic"
-              label="password"
-              variant="outlined"
-              placeholder="enter password"
+              fullWidth
+              label="Confirm Password"
               type="password"
               name="confirm_password"
-              value={values.confirm_password}
-              onChange={handleChange}
-              onBlur={handleBlur}
+              value={formik.values.confirm_password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              helperText={
+                <Typography variant="p" color={"red"}>
+                  {formik.errors.confirm_password &&
+                    formik.touched.confirm_password &&
+                    formik.errors.confirm_password}
+                </Typography>
+              }
             />
-            {errors.confirm_password && touched.confirm_password ? (
-              <p className="text-red-600">{errors.confirm_password}</p>
-            ) : null}
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">
-                Role
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                value={values.role}
-                name="role"
-                onChange={handleChange}
-                label="role"
-              >
-                <MenuItem value=""></MenuItem>
-                <MenuItem value={10}>Admin</MenuItem>
-                <MenuItem value={20}>User</MenuItem>
-              </Select>
-            </FormControl>
+            <Box>
+              <Typography variant="h6" sx={{ textAlign: "left", mb: "10px" }}>
+                Role :
+              </Typography>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={formik.values.role}
+                  name="role"
+                  label="role"
+                  onChange={formik.handleChange}
+                  sx={{ textAlign: "left" }}
+                >
+                  <MenuItem value={"Guest"}>Guest</MenuItem>
+                  <MenuItem value={"Admin"}>Admin</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
 
-            <Button variant="contained" type="submit" disabled={buttonDisable}>
-              Login
-            </Button>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item>
-                <NavLink style={{ color: "#1565c0" }} to={"/"} variant="body2">
-                  Already have an account? Sign in
-                </NavLink>
-              </Grid>
-            </Grid>
+            {statuS ? (
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <CircularProgress />
+              </Box>
+            ) : (
+              <Button
+                variant="contained"
+                type="submit"
+                disabled={buttonDisable}
+              >
+                Sign Up
+              </Button>
+            )}
           </Stack>
-        </Box>
-      </form>
+          <Box>
+            <NavLink
+              style={{ color: "#1565c0" }}
+              to={"/"}
+              variant="body2"
+            >
+              Already have an account? Sign in
+            </NavLink>
+          </Box>
+        </Stack>
+      </Box>
+      <ToastContainer />
     </>
   );
-}
+};
 
-export default Signup;
+export default SignUp;
