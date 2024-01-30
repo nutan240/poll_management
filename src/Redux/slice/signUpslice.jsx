@@ -40,7 +40,6 @@ export const signUpApi = (payload) => async (dispatch) => {
   try {
     let response = await Instance.post(
       `add_user?username=${payload.name}&password=${payload.password}&role=${payload.role}`
-      
     );
     dispatch(loginSuccessful(response.data));
   } catch (e) {

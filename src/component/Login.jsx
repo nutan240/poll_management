@@ -34,8 +34,7 @@ const SignIn = () => {
   }, [signinSlice.isSuccess, navigate]);
   const formik = useFormik({
     initialValues: {
-      // name: signUpFieldValues ? signUpFieldValues.name : "",
-      // password: signUpFieldValues ? signUpFieldValues.password : "",
+ 
       name:  "",
       password: "",
     },
@@ -66,8 +65,8 @@ const SignIn = () => {
 
   return (
     <>
-      <Box className="formBodyStyle">
-        <Stack direction={"column"} spacing={2} sx={{width:500 ,margin:"auto"}} className="form_container">
+      <Box sx={{marginTop:5}} >
+        <Stack direction={"column"} spacing={2} sx={{width:500 ,margin:'auto' ,boxShadow:3 ,padding:5}} >
           <Typography variant="h3">SIGN IN</Typography>
           <Stack
             sx={{ width: "100%", fontSize: "19px" }}

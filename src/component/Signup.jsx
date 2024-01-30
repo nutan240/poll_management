@@ -11,9 +11,9 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
-import { NavLink, Navigate, useNavigate } from "react-router-dom";
+import { NavLink,  useNavigate, useParams } from "react-router-dom";
 import { signUpSchema } from "../schemas";
-// import "../components/stylecss/style.css";
+
 import { useSelector } from "react-redux";
 import {
   signupResetReducer,
@@ -30,6 +30,8 @@ const SignUp = () => {
   const [buttonDisable, setButtonDisable] = useState(false);
   const signupSlice = useSelector((state) => state.signUp );
   const statuS = signupSlice.loading;
+
+  const params = useParams()
 console.log(signupSlice,'dfghj');
   useEffect(() => {
     if (signupSlice.data.error === 1) {
@@ -49,7 +51,7 @@ console.log(signupSlice,'dfghj');
       name: "",
       password: "",
       confirm_password: "",
-      role: "Guest",
+      role: "user",
     },
     validationSchema: signUpSchema,
     onSubmit: (values) => {
@@ -68,9 +70,9 @@ console.log(signupSlice,'dfghj');
   return (
     <>
       <ToastContainer />
-      <Box className="formBodyStyle">
-        <Stack direction={"column"} sx={{width:500 ,margin:"auto"}} className="form_container">
-          <Typography variant="h4">SIGN UP</Typography>
+      <Box sx={{marginTop:5 ,height:400}}>
+        <Stack direction={"column"} sx={{width:500 ,margin:"auto",boxShadow:3 ,padding:5}} className="form_container">
+          <Typography variant="h5">SIGN UP</Typography>
           <Stack
             sx={{ width: "100%", fontSize: "19px" }}
             direction={"column"}
@@ -150,7 +152,7 @@ console.log(signupSlice,'dfghj');
                   onChange={formik.handleChange}
                   sx={{ textAlign: "left" }}
                 >
-                  <MenuItem value={"Guest"}>Guest</MenuItem>
+                  <MenuItem value={"user"}>user</MenuItem>
                   <MenuItem value={"Admin"}>Admin</MenuItem>
                 </Select>
               </FormControl>

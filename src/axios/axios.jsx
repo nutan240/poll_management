@@ -1,9 +1,7 @@
 import axios from "axios";
 
-
 const Instance = axios.create({
-    baseURL: "https://secure-refuge-14993.herokuapp.com/",
+  baseURL: "https://etechpolltesting.onrender.com",
+});
 
-  });
-  
-  export default Instance;
+export default Instance;
