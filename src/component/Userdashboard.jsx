@@ -1,9 +1,12 @@
-import React from 'react'
+import { Box, Button, Stack } from "@mui/material";
+import React from "react";
 
 function Userdashboard() {
   return (
-    <div>Userdashboard</div>
-  )
+    <Stack sx={{ bgcolor: "pink", height: "100vh" }}>
+      <Box>userPoll</Box>
+    </Stack>
+  );
 }
 
-export default Userdashboard
+export default Userdashboard;

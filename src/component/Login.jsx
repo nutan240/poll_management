@@ -1,41 +1,45 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Button, Stack, TextField, Typography, IconButton, InputAdornment } from "@mui/material";
 import { useFormik } from "formik";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { signInScheema } from "../schemas";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { jwtDecode } from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";
 import { dispatch } from "../Redux/store/store";
 import { resetReducer, signInApi } from "../Redux/slice/signInSlice";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { signInScheema } from "../schemas";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [buttonDisable, setButtonDisable] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const signinSlice = useSelector((state) => state.signIn);
   const status = signinSlice.loading;
+
   useEffect(() => {
     if (signinSlice.isSuccess && signinSlice.data.token) {
       const decode = jwtDecode(signinSlice.data.token);
       localStorage.setItem("token", signinSlice.data.token);
       localStorage.setItem("role", decode.role);
       dispatch(resetReducer());
-      if (decode.role === "Guest"  ) {
+      if (decode.role === "Guest") {
         navigate("/userPoll");
       } else if (decode.role === "Admin") {
         navigate("/admin");
       }
     } else if (signinSlice.data.error === 1) {
-      toast.error("user does not exist!", { autoClose: 1000 });
+      toast.error("User does not exist!", { autoClose: 1000 });
       setButtonDisable(false);
     }
     dispatch(resetReducer());
   }, [signinSlice.isSuccess, navigate]);
+
   const formik = useFormik({
     initialValues: {
- 
-      name:  "",
+      name: "",
       password: "",
     },
     validationSchema: signInScheema,
@@ -49,24 +53,22 @@ const SignIn = () => {
     },
   });
 
-  
-  let token = localStorage.getItem('token');
-  let role = localStorage.getItem('role');
-  useEffect(()=>{
-    if(token){
-      if(role==='Admin'){
-        navigate('/admin');
-      }
-      else{
-        navigate('/userPoll')
+  let token = localStorage.getItem("token");
+  let role = localStorage.getItem("role");
+  useEffect(() => {
+    if (token) {
+      if (role === "Admin") {
+        navigate("/admin");
+      } else {
+        navigate("/userPoll");
       }
     }
-  },[token,role])
+  }, [token, role]);
 
   return (
     <>
-      <Box sx={{marginTop:5}} >
-        <Stack direction={"column"} spacing={2} sx={{width:500 ,margin:'auto' ,boxShadow:3 ,padding:5}} >
+      <Box sx={{ marginTop: 5 }}>
+        <Stack direction={"column"} spacing={2} sx={{ width: 500, margin: "auto", boxShadow: 3, padding: 5 }}>
           <Typography variant="h3">SIGN IN</Typography>
           <Stack
             sx={{ width: "100%", fontSize: "19px" }}
@@ -88,9 +90,7 @@ const SignIn = () => {
               onBlur={formik.handleBlur}
               helperText={
                 <Typography variant="p" color={"red"}>
-                  {formik.errors.name &&
-                    formik.touched.name &&
-                    formik.errors.name}
+                  {formik.errors.name && formik.touched.name && formik.errors.name}
                 </Typography>
               }
             />
@@ -100,29 +100,31 @@ const SignIn = () => {
             <TextField
               fullWidth
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              helperText={
-                <Typography variant="p" color={"red"}>
-                  {formik.errors.password &&
-                    formik.touched.password &&
-                    formik.errors.password}
-                </Typography>
-              }
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             {status ? (
               <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <CircularProgress />
               </Box>
             ) : (
-              <Button
-                variant="contained"
-                type="submit"
-                disabled={buttonDisable}
-              >
+              <Button variant="contained" type="submit" disabled={buttonDisable}>
                 Sign In
               </Button>
             )}
