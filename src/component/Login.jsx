@@ -69,7 +69,7 @@ const SignIn = () => {
     <>
       <Box sx={{ marginTop: 5 }}>
         <Stack direction={"column"} spacing={2} sx={{ width: 500, margin: "auto", boxShadow: 3, padding: 5 }}>
-          <Typography variant="h3">SIGN IN</Typography>
+          <Typography variant="h4">sign in..</Typography>
           <Stack
             sx={{ width: "100%", fontSize: "19px" }}
             direction={"column"}
@@ -77,9 +77,7 @@ const SignIn = () => {
             component="form"
             onSubmit={formik.handleSubmit}
           >
-            <Typography variant="h6" sx={{ textAlign: "left", mb: "10px" }}>
-              User Name :
-            </Typography>
+            
             <TextField
               fullWidth
               label="User Name"
@@ -94,9 +92,7 @@ const SignIn = () => {
                 </Typography>
               }
             />
-            <Typography variant="h6" sx={{ mb: "10px", textAlign: "left" }}>
-              Password :
-            </Typography>
+           
             <TextField
               fullWidth
               label="Password"
@@ -124,9 +120,16 @@ const SignIn = () => {
                 <CircularProgress />
               </Box>
             ) : (
-              <Button variant="contained" type="submit" disabled={buttonDisable}>
-                Sign In
-              </Button>
+              <Button
+  variant="contained"
+  sx={{
+    background: 'linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)'
+  }}
+  type="submit"
+  disabled={buttonDisable}
+>
+  Sign In
+</Button>
             )}
           </Stack>
           <NavLink style={{ color: "#1565c0" }} to={"/signup"} variant="body2">

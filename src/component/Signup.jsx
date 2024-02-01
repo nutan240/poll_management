@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
-import { NavLink,  useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { signUpSchema } from "../schemas";
 
 import { useSelector } from "react-redux";
@@ -28,11 +28,11 @@ import { dispatch } from "../Redux/store/store";
 const SignUp = () => {
   const navigate = useNavigate();
   const [buttonDisable, setButtonDisable] = useState(false);
-  const signupSlice = useSelector((state) => state.signUp );
+  const signupSlice = useSelector((state) => state.signUp);
   const statuS = signupSlice.loading;
 
-  const params = useParams()
-console.log(signupSlice,'dfghj');
+  const params = useParams();
+  console.log(signupSlice, "dfghj");
   useEffect(() => {
     if (signupSlice.data.error === 1) {
       toast.error("User already exists!");
@@ -44,7 +44,6 @@ console.log(signupSlice,'dfghj');
       navigate("/");
     }
   }, [signupSlice.isSuccess]);
-
 
   const formik = useFormik({
     initialValues: {
@@ -58,21 +57,25 @@ console.log(signupSlice,'dfghj');
       try {
         dispatch(startLoading());
         dispatch(signUpApi(values));
-        
       } catch (error) {
         dispatch(signupResetReducer());
       }
-      formik.resetForm()
-    
+      formik.resetForm();
     },
   });
 
   return (
     <>
       <ToastContainer />
-      <Box sx={{marginTop:5 ,height:400}}>
-        <Stack direction={"column"} sx={{width:500 ,margin:"auto",boxShadow:3 ,padding:5}} className="form_container">
-          <Typography variant="h5">SIGN UP</Typography>
+      <Box sx={{ marginTop: 5, height: 400 }}>
+        <Stack
+          direction={"column"}
+          sx={{ width: 500, margin: "auto", boxShadow: 3, padding: 5 }}
+          className="form_container"
+        >
+          <Typography sx={{ fontWeight: "bold" }} variant="h5">
+            sign up..
+          </Typography>
           <Stack
             sx={{ width: "100%", fontSize: "19px" }}
             direction={"column"}
@@ -80,9 +83,6 @@ console.log(signupSlice,'dfghj');
             component="form"
             onSubmit={formik.handleSubmit}
           >
-            <Typography variant="h6" sx={{ textAlign: "left" }}>
-              User Name :
-            </Typography>
             <TextField
               fullWidth
               label="User Name"
@@ -99,9 +99,7 @@ console.log(signupSlice,'dfghj');
                 </Typography>
               }
             />
-            <Typography variant="h6" sx={{ textAlign: "left" }}>
-              Password :
-            </Typography>
+
             <TextField
               fullWidth
               label="Password"
@@ -118,9 +116,7 @@ console.log(signupSlice,'dfghj');
                 </Typography>
               }
             />
-            <Typography variant="h6" sx={{ textAlign: "left" }}>
-              Confirm Password :
-            </Typography>
+
             <TextField
               fullWidth
               label="Confirm Password"
@@ -165,6 +161,10 @@ console.log(signupSlice,'dfghj');
             ) : (
               <Button
                 variant="contained"
+                sx={{
+                  background:
+                    "linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)",
+                }}
                 type="submit"
                 disabled={buttonDisable}
               >
@@ -173,11 +173,7 @@ console.log(signupSlice,'dfghj');
             )}
           </Stack>
           <Box>
-            <NavLink
-              style={{ color: "#1565c0" }}
-              to={"/"}
-              variant="body2"
-            >
+            <NavLink style={{ color: "#1565c0" }} to={"/"} variant="body2">
               Already have an account? Sign in
             </NavLink>
           </Box>

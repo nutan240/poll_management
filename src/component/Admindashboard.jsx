@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AdminPollApi } from "../Redux/slice/AdminSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DeleteTitleApi } from "../Redux/slice/DeleteTitle";
+import Navbar from "./Navbar";
 
 const Admin = () => {
   const dispatch = useDispatch();
@@ -34,12 +35,16 @@ const Admin = () => {
         width: "100%",
         height: "100vh",
         overflow: "auto",
-        bgcolor: "#63cdda75",
+        // background:'red'
       }}
     >
-      <Box sx={{ textAlign: "center" }}>
+
+   
+        <Box sx={{ textAlign: "center" }}>
+        <Navbar/>
         <Typography variant="h3"> Welcome to Admin Poll</Typography>
       </Box>
+
       <NavLink
         style={{ textDecoration: "none", color: "black" }}
         to={"/addPoll"}
@@ -59,7 +64,7 @@ const Admin = () => {
         {pollList && pollList.length > 0 ? (
           pollList.map((dataList) => (
             <div key={dataList._id}>
-              <Typography variant="h6" textAlign={"start"}>
+              <Typography variant="h6" textAlign={"start"}  sx={{background: 'linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)'}}>
                 {dataList.title}
               </Typography>
               <div className="flex justify-between border-2 border-blue-600">

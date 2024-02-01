@@ -73,7 +73,11 @@ const AddPoll = () => {
   });
 
   return (
-    <Box className="formBodyStyle">
+
+    <Box  sx={{ 
+      background: 'linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)'
+    , height:"100vh" , padding:'20px'}}>
+    <Box className="formBodyStyle"   sx={{width:500 , marginX:'auto', background:'white' , padding:4 , borderRadius:3}}>
       <form onSubmit={formik.handleSubmit}>
         <Stack direction={"column"} spacing={2} className="form_container">
           <Typography variant="h4" sx={{ textAlign: "center" }}>
@@ -101,10 +105,12 @@ const AddPoll = () => {
               add option
             </Button>
 
-            <Button sx={{bgcolor:'red'}} variant="contained" onClick={() => decreseLength()}>
+            <Button variant="contained" onClick={() => decreseLength()}>
               remove option
             </Button>
           </Stack>
+
+          
           <Button
             variant="contained"
             
@@ -122,6 +128,7 @@ const AddPoll = () => {
       </form>
       <ToastContainer />
       <Outlet />
+    </Box>
     </Box>
   );
 };
