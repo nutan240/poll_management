@@ -1,4 +1,3 @@
-// Admin component
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
@@ -11,9 +10,9 @@ const Admin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const pollList = useSelector((state) => state.AdminSlice.data);
-  const [deleteId, setDeleteId] = useState(null);
-
   const deleteTitleLoading = useSelector((state) => state.DeleteTitle.loading);
+  const [deleteId, setDeleteId] = useState(null);
+  const [optionData, setOptionData] = useState(null);
 
   const logout = () => {
     localStorage.clear();
@@ -23,8 +22,6 @@ const Admin = () => {
   const deleteTitleData = (titleID) => {
     dispatch(DeleteTitleApi(titleID));
     setDeleteId(titleID);
-
-    console.log(DeleteTitleApi, "nutan");
   };
 
   useEffect(() => {
@@ -37,7 +34,7 @@ const Admin = () => {
         width: "100%",
         height: "100vh",
         overflow: "auto",
-        bgcolor: "#63cdda32",
+        bgcolor: "#63cdda75",
       }}
     >
       <Box sx={{ textAlign: "center" }}>
@@ -55,25 +52,23 @@ const Admin = () => {
         sx={{
           height: "70%",
           overflow: "auto",
-          width:"95%" ,
           boxShadow:
             "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
         }}
       >
-        <Box sx={{ display: "flex"  ,alignItems:'flex-start'}}>
-        <div className="m-3">
-          {pollList && pollList.length > 0 ? (
-            pollList.map((dataList) => (
-              <div key={dataList._id}>
-                <Typography variant="h6" textAlign={"start"}>
-                  {dataList.title}
-                </Typography>
-                <div className="flex justify-between border-2 ">
-                 
-                    {dataList.options.map((option, index) => (
-                      <div className="w-[600px]"  key={index}>{option.option}</div>
-                    ))}
-                    <div  >
+        {pollList && pollList.length > 0 ? (
+          pollList.map((dataList) => (
+            <div key={dataList._id}>
+              <Typography variant="h6" textAlign={"start"}>
+                {dataList.title}
+              </Typography>
+              <div className="flex justify-between border-2 border-blue-600">
+                {dataList.options.map((option, index) => (
+                  <div key={index} style={{ marginBottom: '8px' }}>
+                    {option.option}
+                  </div>
+                ))}
+                <div>
                   {dataList._id === deleteId && deleteTitleLoading ? (
                     <CircularProgress color="inherit" />
                   ) : (
@@ -84,15 +79,12 @@ const Admin = () => {
                     />
                   )}
                 </div>
-                </div>
-               
               </div>
-            ))
-          ) : (
-            <Typography variant="h6" textAlign={"center"}></Typography>
-          )}
-          </div>
-        </Box>
+            </div>
+          ))
+        ) : (
+          <Typography variant="h6" textAlign={"center"}></Typography>
+        )}
       </Box>
       <Box
         sx={{
