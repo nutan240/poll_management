@@ -13,6 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
+import { Card } from "@mui/material";
 
 // const pages = ['Products', 'Pricing', 'Blog']; // Adjusted pages array
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -39,7 +40,7 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ background: "#8C7569" }}>
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
@@ -89,7 +90,31 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              <Typography textAlign="center">add poll</Typography>
+              <NavLink
+                style={{
+                  width: "20px",
+                  color: "black",
+                }}
+                to={"/addPoll"}
+              >
+                <Card sx={{ width: "80px" }} textAlign="center">
+                  add poll
+                </Card>
+              </NavLink>
+              <NavLink
+                style={{
+                  width: "20px",
+                  color: "black",
+                }}
+                to={"/userdetails"}
+              >
+                <Card
+                  sx={{ width: "80px", marginTop: "10px" }}
+                  textAlign="center"
+                >
+                  all user
+                </Card>
+              </NavLink>
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -128,11 +153,8 @@ function ResponsiveAppBar() {
               style={{ textDecoration: "none", color: "black" }}
               to={"/userdetails"}
             >
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-               user details 
+              <Button sx={{ my: 2, color: "white", display: "block" }}>
+                user details
               </Button>
             </NavLink>
           </Box>

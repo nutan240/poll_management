@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Instance from "../../axios/axios";
-import { dispatch } from "../store/store";
 
 const initialState = {
   loading: false,
@@ -38,35 +37,23 @@ const AddPoll = createSlice({
   },
 });
 
-export const AddPollApi = (payload, newOption) => async () => {
+export const AddPollApi = (payload, newOption) => async (dispatch) => {
   dispatch(AddPoll.actions.startLoading());
+  
   try {
-    if (newOption.length === 1) {
-      let response = await Instance.post(
-        `add_poll?title=${payload.title}&options=${newOption[0].option}`
-      );
+ 
+    const optionsString = newOption.map(option => option.option).join('____');
 
-      dispatch(AddPoll.actions.loginSuccessful(response.data));
-    } else if (newOption.length === 2) {
-      let response = await Instance.post(
-        `add_poll?title=${payload.title}&options=${newOption[0].option}____${newOption[1].option}`
-      );
-      dispatch(AddPoll.actions.loginSuccessful(response.data));
-    } else if (newOption.length === 3) {
-      let response = await Instance.post(
-        `add_poll?title=${payload.title}&options=${newOption[0].option}____${newOption[1].option}____${newOption[2].option}`
-      );
-      dispatch(AddPoll.actions.loginSuccessful(response.data));
-    } else if (newOption.length === 4) {
-      let response = await Instance.post(
-        `add_poll?title=${payload.title}&options=${newOption[0].option}____${newOption[1].option}____${newOption[2].option}____${newOption[3].option}`
-      );
-      dispatch(AddPoll.actions.loginSuccessful(response.data));
-    }
+    const response = await Instance.post(
+      `add_poll?title=${payload.title}&options=${optionsString}`
+    );
+
+    dispatch(AddPoll.actions.loginSuccessful(response.data));
   } catch (e) {
-    dispatch(hasError(e));
+    dispatch(AddPoll.actions.hasError(e));
   }
 };
+
 export const { startLoading, loginSuccessful, hasError, resetReducer } =
   AddPoll.actions;
 

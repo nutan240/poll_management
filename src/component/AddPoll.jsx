@@ -75,7 +75,7 @@ const AddPoll = () => {
   return (
 
     <Box  sx={{ 
-      background: 'linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)'
+      background: '#a9988f7a'
     , height:"100vh" , padding:'20px'}}>
     <Box className="formBodyStyle"   sx={{width:500 , marginX:'auto', background:'white' , padding:4 , borderRadius:3}}>
       <form onSubmit={formik.handleSubmit}>
@@ -100,12 +100,18 @@ const AddPoll = () => {
               />
             );
           })}
-          <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
-            <Button variant="contained" onClick={() => increseLength()}>
+          <Stack direction={"row"} sx={{
+           
+             justifyContent: "space-between" }}>
+            <Button variant="contained"
+            sx={{ background: ' #8c7569bf'}}
+             onClick={() => increseLength()}>
               add option
             </Button>
 
-            <Button variant="contained" onClick={() => decreseLength()}>
+            <Button variant="contained" 
+              sx={{background: ' #8c7569bf' , }}
+            onClick={() => decreseLength()}>
               remove option
             </Button>
           </Stack>
@@ -113,14 +119,14 @@ const AddPoll = () => {
           
           <Button
             variant="contained"
-            
+            sx={{background: ' #8c7569bf' , }}
             type="submit"
            
           >
             Submit
           </Button>
           <Link to={"/admin"} width="100%">
-            <Button sx={{ width: "100%" }} variant="contained">
+            <Button sx={{background: ' #8c7569bf' ,width:'100%'}}variant="contained">
               Cancel
             </Button>
           </Link>

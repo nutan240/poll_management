@@ -42,17 +42,9 @@ const Admin = () => {
    
         <Box sx={{ textAlign: "center" }}>
         <Navbar/>
-        {/* <Typography variant="h3"> Welcome to Admin Poll</Typography> */}
+     
       </Box>
 
-      <NavLink
-        style={{ textDecoration: "none", color: "black" }}
-        to={"/addPoll"}
-      >
-        <Typography variant="h5" textAlign={"center"}>
-          Add Poll +
-        </Typography>
-      </NavLink>
       <Box
         sx={{
           height: "70%",
@@ -64,7 +56,7 @@ const Admin = () => {
         {pollList && pollList.length > 0 ? (
           pollList.map((dataList) => (
             <div key={dataList._id}>
-              <Typography variant="h6" textAlign={"start"}  sx={{background: 'linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)'}}>
+              <Typography variant="h6" textAlign={"start"}  sx={{background: 'linear-gradient(45deg, #8c75694f 20%,#1976d238 70%)'}}>
                 {dataList.title}
               </Typography>
               <div className="flex justify-between border-2 border-blue-600">
@@ -99,7 +91,9 @@ const Admin = () => {
           mt: "10px",
         }}
       >
-        <Button variant="contained" onClick={logout}>
+        <Button variant="contained"
+        sx={{background:'#8C7569'}}
+         onClick={logout}>
           Log Out
         </Button>
       </Box>

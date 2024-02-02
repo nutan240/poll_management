@@ -36,7 +36,8 @@ const userDetails = createSlice({
     }
 });
 
-export const userApi = ()=> async () =>{
+export async function userApi () {
+console.log('userapiiiiiiiiiiii');
     dispatch(startLoading());
     try {
         let response = await Instance.get(`list_users`);

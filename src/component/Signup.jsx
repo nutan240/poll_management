@@ -134,9 +134,7 @@ const SignUp = () => {
               }
             />
             <Box>
-              <Typography variant="h6" sx={{ textAlign: "left", mb: "10px" }}>
-                Role :
-              </Typography>
+              
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Role</InputLabel>
                 <Select
