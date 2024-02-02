@@ -123,6 +123,18 @@ function ResponsiveAppBar() {
                 add poll
               </Button>
             </NavLink>
+
+            <NavLink
+              style={{ textDecoration: "none", color: "black" }}
+              to={"/userdetails"}
+            >
+              <Button
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+               user details 
+              </Button>
+            </NavLink>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

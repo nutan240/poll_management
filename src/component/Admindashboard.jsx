@@ -42,7 +42,7 @@ const Admin = () => {
    
         <Box sx={{ textAlign: "center" }}>
         <Navbar/>
-        <Typography variant="h3"> Welcome to Admin Poll</Typography>
+        {/* <Typography variant="h3"> Welcome to Admin Poll</Typography> */}
       </Box>
 
       <NavLink
