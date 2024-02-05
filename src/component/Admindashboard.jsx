@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AdminPollApi } from "../Redux/slice/AdminSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -35,49 +42,77 @@ const Admin = () => {
         width: "100%",
         height: "100vh",
         overflow: "auto",
-        // background:'red'
+       
       }}
     >
-
-   
-        <Box sx={{ textAlign: "center" }}>
-        <Navbar/>
-     
+      <Box>
+        <Navbar />
       </Box>
 
       <Box
         sx={{
           height: "70%",
           overflow: "auto",
-          boxShadow:
-            "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+          marginTop: 2,
         }}
       >
         {pollList && pollList.length > 0 ? (
           pollList.map((dataList) => (
-            <div key={dataList._id}>
-              <Typography variant="h6" textAlign={"start"}  sx={{background: 'linear-gradient(45deg, #8c75694f 20%,#1976d238 70%)'}}>
+            <Typography
+              sx={{
+                border: 1,
+                borderColor: "#8c7569c7",
+                marginBottom: 1,
+              }}
+              key={dataList._id}
+            >
+              <Stack
+                direction={"row"}
+                variant="h6"
+                textAlign={"start"}
+                sx={{
+                  background: "#8c7569c7",
+                  padding: 1,
+                  justifyContent: "space-between",
+                }}
+              >
                 {dataList.title}
-              </Typography>
-              <div className="flex justify-between border-2 border-blue-600">
+
+                <DeleteIcon
+                  color="error"
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => deleteTitleData(dataList._id)}
+                />
+              </Stack>
+              <Typography>
                 {dataList.options.map((option, index) => (
-                  <div key={index} style={{ marginBottom: '8px' }}>
+                  <Stack
+                    direction={"row"}
+                    sx={{
+                      background: "#d9d2ce ",
+                      display: "flex",
+                      marginTop: 1,
+
+                      padding: 1,
+                      justifyContent: "space-between",
+                    }}
+                    key={index}
+                  >
                     {option.option}
-                  </div>
+
+                    <Typography>{option.vote}</Typography>
+                  </Stack>
                 ))}
-                <div>
+
+                <Typography>
                   {dataList._id === deleteId && deleteTitleLoading ? (
                     <CircularProgress color="inherit" />
                   ) : (
-                    <DeleteIcon
-                      color="error"
-                      sx={{ cursor: "pointer" }}
-                      onClick={() => deleteTitleData(dataList._id)}
-                    />
+                    <Typography></Typography>
                   )}
-                </div>
-              </div>
-            </div>
+                </Typography>
+              </Typography>
+            </Typography>
           ))
         ) : (
           <Typography variant="h6" textAlign={"center"}></Typography>
@@ -91,9 +126,11 @@ const Admin = () => {
           mt: "10px",
         }}
       >
-        <Button variant="contained"
-        sx={{background:'#8C7569'}}
-         onClick={logout}>
+        <Button
+          variant="contained"
+          sx={{ background: "#8C7569" }}
+          onClick={logout}
+        >
           Log Out
         </Button>
       </Box>

@@ -36,6 +36,18 @@ const AdminPoll = createSlice({
       state.isSuccess = false;
       state.data = {};
     },
+
+    addVote: (state, action) => {
+      const { optionId } = action.payload;
+    
+      state.data.forEach((poll) => {
+        poll.options.forEach((option) => {
+          if (option._id === optionId) {
+            option.vote = option.vote + 1; 
+          }
+        });
+      });
+    },
   },
 });
 
@@ -49,6 +61,6 @@ export const AdminPollApi = () => async () => {
   }
 };
 
-export const { startLoading, getSuccess, hasError, resetReducer } = AdminPoll.actions;
+export const { startLoading, getSuccess, hasError, resetReducer ,addVote } = AdminPoll.actions;
 
 export default AdminPoll.reducer;

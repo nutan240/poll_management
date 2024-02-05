@@ -1,27 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Instance from "../../axios/axios";
-
+import { dispatch } from "../store/store";
 
 const initialState = {
   loading: false,
   isError: false,
   isSuccess: false,
-  data: {},
+  data: [],
 };
 
- export const signUp = createSlice({
-  name: "signUp",
+const AddVote = createSlice({
+  name: "AddVote",
   initialState: initialState,
   reducers: {
     startLoading: (state) => {
       state.loading = true;
       state.isError = false;
     },
-    loginSuccessful: (state, action) => {
+    getSuccess: (state, action) => {
       state.loading = false;
       state.isError = false;
       state.isSuccess = true;
-      state.data = { ...action.payload };
+      state.data = action.payload.data.reverse();
     },
     hasError: (state, action) => {
       state.loading = false;
@@ -29,7 +29,7 @@ const initialState = {
       state.isSuccess = false;
       state.errorMessage = action.payload;
     },
-    signupResetReducer(state) {
+    resetReducer(state) {
       state.isError = false;
       state.loading = false;
       state.isSuccess = false;
@@ -38,17 +38,20 @@ const initialState = {
   },
 });
 
-export const signUpApi = (payload) => async (dispatch) => {
+export const AddVoteApi = (VoteId, VoteOptionText, header) => async () => {
+  dispatch(startLoading());
   try {
-    let response = await Instance.post(
-      `add_user?username=${payload.name}&password=${payload.password}&role=${payload.role}`
+    let response = await Instance.get(
+      `do_vote?id=${VoteId}&option_text=${VoteOptionText}`,
+      header
     );
-    dispatch(loginSuccessful(response.data));
+    dispatch(AddVote.actions.getSuccess(response.data));
   } catch (e) {
-    dispatch(hasError(e));
-    console.log(e,'sdffsf');
+    dispatch(AddVote.actions.hasError(e));
   }
 };
-export const { startLoading, loginSuccessful, hasError, signupResetReducer } = signUp.actions;
 
-export default signUp.reducer;
+export const { startLoading, loginSuccessful, hasError, resetReducer } =
+  AddVote.actions;
+
+export default AddVote.reducer;

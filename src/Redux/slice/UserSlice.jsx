@@ -32,7 +32,12 @@ const userDetails = createSlice({
             state.isSuccess = false;
             state.errorMessage = action.payload;
           },
-
+          resetReducer(state) {
+            state.isError = false;
+            state.loading = false;
+            state.isSuccess = false;
+            state.data = []; 
+          },
     }
 });
 
