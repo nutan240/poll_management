@@ -4,15 +4,15 @@ import {
   Box,
   Button,
   CircularProgress,
-  Grid,
   Stack,
   Typography,
 } from "@mui/material";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AdminPollApi } from "../Redux/slice/AdminSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { DeleteTitleApi } from "../Redux/slice/DeleteTitle";
 import Navbar from "./Navbar";
+import EditIcon from "@mui/icons-material/Edit";
+import { DeleteTitleApi } from "../Redux/slice/DeleteTitle";
 
 const Admin = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,10 @@ const Admin = () => {
   const pollList = useSelector((state) => state.AdminSlice.data);
   const deleteTitleLoading = useSelector((state) => state.DeleteTitle.loading);
   const [deleteId, setDeleteId] = useState(null);
-  const [optionData, setOptionData] = useState(null);
+
+  useEffect(() => {
+    dispatch(AdminPollApi());
+  }, [dispatch, deleteId, deleteTitleLoading]);
 
   const logout = () => {
     localStorage.clear();
@@ -32,18 +35,16 @@ const Admin = () => {
     setDeleteId(titleID);
   };
 
-  useEffect(() => {
-    dispatch(AdminPollApi());
-  }, [dispatch, deleteId, deleteTitleLoading]);
+  const handleEditClick = (titleID) => {
+    const selectedPoll = pollList.find((poll) => poll._id === titleID);
+    if (selectedPoll) {
+      navigate(`/editPoll/${titleID}`, { state: { pollData: selectedPoll } });
+    }
+  };
 
   return (
     <Box
-      sx={{
-        width: "100%",
-        height: "100vh",
-        overflow: "auto",
-       
-      }}
+      sx={{ width: "100%", height: "100vh", overflow: "auto", margin: "auto" }}
     >
       <Box>
         <Navbar />
@@ -51,9 +52,11 @@ const Admin = () => {
 
       <Box
         sx={{
-          height: "70%",
-          overflow: "auto",
           marginTop: 2,
+          display: "flex",
+          flexWrap: "wrap",
+          width: "97%",
+          margin: "auto",
         }}
       >
         {pollList && pollList.length > 0 ? (
@@ -63,6 +66,13 @@ const Admin = () => {
                 border: 1,
                 borderColor: "#8c7569c7",
                 marginBottom: 1,
+                width: {
+                  lg: "45%",
+                  sm: "100%",
+                },
+
+                margin: 3,
+                padding: 2,
               }}
               key={dataList._id}
             >
@@ -77,11 +87,9 @@ const Admin = () => {
                 }}
               >
                 {dataList.title}
-
-                <DeleteIcon
-                  color="error"
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => deleteTitleData(dataList._id)}
+                <EditIcon
+                  onClick={() => handleEditClick(dataList._id)}
+                  style={{ cursor: "pointer" }}
                 />
               </Stack>
               <Typography>
@@ -92,47 +100,56 @@ const Admin = () => {
                       background: "#d9d2ce ",
                       display: "flex",
                       marginTop: 1,
-
                       padding: 1,
                       justifyContent: "space-between",
                     }}
                     key={index}
                   >
                     {option.option}
-
-                    <Typography>{option.vote}</Typography>
+                    <Typography> Vote {option.vote}</Typography>
                   </Stack>
                 ))}
-
-                <Typography>
-                  {dataList._id === deleteId && deleteTitleLoading ? (
-                    <CircularProgress color="inherit" />
-                  ) : (
-                    <Typography></Typography>
-                  )}
-                </Typography>
+              </Typography>
+              <Typography
+                sx={{
+                  color: "white",
+                  padding: 1,
+                  marginTop: 1,
+                  borderRadius: 1,
+                }}
+              >
+                {dataList._id === deleteId && deleteTitleLoading ? (
+                  <Typography sx={{ height: "10px" }}>
+                    <CircularProgress
+                      color="inherit"
+                      sx={{
+                        width: "10px",
+                      }}
+                    />
+                  </Typography>
+                ) : (
+                  <Button
+                    sx={{
+                      background:
+                        "linear-gradient(111.3deg, rgb(252, 56, 56) 11.7%, rgb(237, 13, 81) 81.7%)",
+                      color: "white",
+                    }}
+                    onClick={() => deleteTitleData(dataList._id)}
+                    variant="outlined"
+                  >
+                    DELETE
+                    <DeleteIcon
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => deleteTitleData(dataList._id)}
+                    />
+                  </Button>
+                )}
               </Typography>
             </Typography>
           ))
         ) : (
           <Typography variant="h6" textAlign={"center"}></Typography>
         )}
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          width: "100%",
-          mt: "10px",
-        }}
-      >
-        <Button
-          variant="contained"
-          sx={{ background: "#8C7569" }}
-          onClick={logout}
-        >
-          Log Out
-        </Button>
       </Box>
     </Box>
   );

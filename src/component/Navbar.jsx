@@ -12,13 +12,16 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Card } from "@mui/material";
 
-// const pages = ['Products', 'Pricing', 'Blog']; // Adjusted pages array
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+
+const settings = ["Profile",   "Logout"];
 
 function ResponsiveAppBar() {
+
+
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -35,6 +38,10 @@ function ResponsiveAppBar() {
   };
 
   const handleCloseUserMenu = () => {
+    if (settings.includes("Logout")){
+    localStorage.clear();
+    navigate("/");
+   }
     setAnchorElUser(null);
   };
 
@@ -42,7 +49,6 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl" sx={{ background: "#8C7569" }}>
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -117,7 +123,7 @@ function ResponsiveAppBar() {
               </NavLink>
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          
           <Typography
             variant="h5"
             noWrap

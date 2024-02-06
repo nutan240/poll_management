@@ -5,6 +5,8 @@ import AdminSlice from "./slice/AdminSlice";
 import AddSlice from "./slice/AddSlice";
 import DeleteTitle from './slice/DeleteTitle';
 import userDetails from './slice/UserSlice';
+import EditTitle from "./slice/EditTitle";
+
 const rootReducer = combineReducers({
     signIn: signInSlice, 
     signUp: signUpslice,
@@ -12,6 +14,8 @@ const rootReducer = combineReducers({
     AddSlice :AddSlice,
     DeleteTitle:DeleteTitle,
     userDetails: userDetails,
+    EditTitle : EditTitle,
+   
 });
 
 export default rootReducer;

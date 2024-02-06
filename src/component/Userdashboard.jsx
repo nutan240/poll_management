@@ -21,26 +21,22 @@ function Userdashboard() {
     dispatch(AdminPollApi()).then(() => setLoading(false));
   }, [dispatch]);
 
-
   const header = {
     headers: {
       access_token: token,
     },
   };
 
-
   const VoteChange = (title, OptionId, OptionData) => {
     dispatch(AddVoteApi(OptionId, OptionData, header));
-   
+
     toast.success("Your Vote has been Submitted", { autoClose: 1000 });
-    
+
     localStorage.setItem(`${title}_voted`, OptionData);
 
     console.log(`Vote added for "${title}" with OptionId: ${OptionId}`);
 
-
     dispatch(addVote(OptionId));
-
   };
   if (loading) {
     return <h1>loading</h1>;
@@ -64,7 +60,11 @@ function Userdashboard() {
 
       <Box
         sx={{
+          display: "flex",
+          flexWrap: "wrap",
           borderRadius: 2,
+          width : '97%',
+          margin : "auto"
         }}
       >
         {!pollList.loading &&
@@ -76,7 +76,12 @@ function Userdashboard() {
                     borderRadius: 2,
                     border: 2,
                     borderColor: "#8c7569c7",
-                    marginTop: 3,
+                    margin: 2,
+                    width: {
+                      lg: "45%",
+                      sm: "100%",
+                    },
+                    padding: 1,
                   }}
                   key={dataList._id}
                 >
@@ -84,10 +89,9 @@ function Userdashboard() {
                     sx={{
                       background: "  #8c7569c7",
                       padding: 1,
-                      borderRadius: 2,
                     }}
                   >
-                    <div>{dataList.title}</div>
+                    <div className="pl-5">{dataList.title}</div>
                   </Typography>
 
                   <Typography
@@ -100,8 +104,6 @@ function Userdashboard() {
                         <Typography
                           sx={{
                             background: "#d9d2ce ",
-
-                            borderRadius: 2,
                           }}
                         >
                           <Typography
@@ -127,7 +129,6 @@ function Userdashboard() {
                                   option.option
                                 )
                               }
-
                             />
                             {option.option}
                           </Typography>
