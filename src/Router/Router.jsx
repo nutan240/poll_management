@@ -7,14 +7,19 @@ import SignUp from "../component/Signup";
 import AddPoll from '../component/AddPoll';
 import UserDetails from '../component/UserDetails';
 import EditPoll from "../component/EditPoll";
+import Protected from "./Protected";
 
 function Router() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/admin" element={<Admin />} />
-      <Route path="/userPoll" element={<User />} />
+      <Route path="/dashboard" element={
+      <Protected Component={Admin }  />
+     } />
+      <Route path="/userPoll" element={
+      <Protected Component={User }  />
+     } />
       <Route path="/userdetails" element={<UserDetails />} />
       <Route path="/addPoll" element={<AddPoll />} />
       <Route path="/addPoll" element={<AddPoll />} /> 

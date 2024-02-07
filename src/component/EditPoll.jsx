@@ -40,7 +40,7 @@ const EditPoll = () => {
             console.log("Poll updated successfully", updatedPoll);
             toast.success("Poll updated successfully");
             setTimeout(() => {
-              navigate("/admin");
+              navigate("/dashboard");
             }, 200);
           }
         } else {
@@ -84,7 +84,7 @@ const EditPoll = () => {
             >
               update
             </Button>
-            <Link to={"/admin"} width="100%">
+            <Link to={"/dashboard"} width="100%">
               <Button
                 sx={{ background: "#8c7569bf", width: "100%" }}
                 variant="contained"

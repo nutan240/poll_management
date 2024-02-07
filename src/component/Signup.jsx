@@ -1,7 +1,17 @@
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
+  IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -9,21 +19,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { signUpSchema } from "../schemas";
-
-import { useSelector } from "react-redux";
-import {
-  signupResetReducer,
-  signUpApi,
-  startLoading,
-} from "../Redux/slice/signUpslice";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { signUpApi, signupResetReducer, startLoading } from "../Redux/slice/signUpslice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CircularProgress from "@mui/material/CircularProgress";
 import { dispatch } from "../Redux/store/store";
+
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -31,8 +33,6 @@ const SignUp = () => {
   const signupSlice = useSelector((state) => state.signUp);
   const statuS = signupSlice.loading;
 
-  const params = useParams();
-  console.log(signupSlice, "dfghj");
   useEffect(() => {
     if (signupSlice.data.error === 1) {
       toast.error("User already exists!");
@@ -42,6 +42,8 @@ const SignUp = () => {
       setButtonDisable(true);
       dispatch(signupResetReducer());
       navigate("/");
+      
+      toast.success("Sign up successful!");
     }
   }, [signupSlice.isSuccess]);
 
@@ -51,8 +53,17 @@ const SignUp = () => {
       password: "",
       confirm_password: "",
       role: "user",
+      showPassword: false,
+      showConfirmPassword: false,
     },
-    validationSchema: signUpSchema,
+    validationSchema: Yup.object({
+      name: Yup.string().required("Required"),
+      password: Yup.string().required("Required"),
+      confirm_password: Yup.string().oneOf(
+        [Yup.ref("password"), null],
+        "Passwords must match"
+      ),
+    }),
     onSubmit: (values) => {
       try {
         dispatch(startLoading());
@@ -74,7 +85,7 @@ const SignUp = () => {
           className="form_container"
         >
           <Typography sx={{ fontWeight: "bold" }} variant="h5">
-            sign up..
+            Sign Up
           </Typography>
           <Stack
             sx={{ width: "100%", fontSize: "19px" }}
@@ -86,71 +97,103 @@ const SignUp = () => {
             <TextField
               fullWidth
               label="User Name"
-              type="name"
+              type="text"
               name="name"
               value={formik.values.name}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               helperText={
-                <Typography variant="p" color={"red"}>
-                  {formik.errors.name &&
-                    formik.touched.name &&
-                    formik.errors.name}
-                </Typography>
+                formik.errors.name && formik.touched.name && formik.errors.name
               }
             />
 
             <TextField
               fullWidth
               label="Password"
-              type="password"
+              type={formik.values.showPassword ? "text" : "password"}
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               helperText={
-                <Typography variant="p" color={"red"}>
-                  {formik.errors.password &&
-                    formik.touched.password &&
-                    formik.errors.password}
-                </Typography>
+                formik.errors.password &&
+                formik.touched.password &&
+                formik.errors.password
               }
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() =>
+                        formik.setValues({
+                          ...formik.values,
+                          showPassword: !formik.values.showPassword,
+                        })
+                      }
+                      edge="end"
+                    >
+                      {formik.values.showPassword ? (
+                        <VisibilityIcon />
+                      ) : (
+                        <VisibilityOffIcon />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
 
             <TextField
               fullWidth
               label="Confirm Password"
-              type="password"
+              type={formik.values.showConfirmPassword ? "text" : "password"}
               name="confirm_password"
               value={formik.values.confirm_password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               helperText={
-                <Typography variant="p" color={"red"}>
-                  {formik.errors.confirm_password &&
-                    formik.touched.confirm_password &&
-                    formik.errors.confirm_password}
-                </Typography>
+                formik.errors.confirm_password &&
+                formik.touched.confirm_password &&
+                formik.errors.confirm_password
               }
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() =>
+                        formik.setValues({
+                          ...formik.values,
+                          showConfirmPassword: !formik.values.showConfirmPassword,
+                        })
+                      }
+                      edge="end"
+                    >
+                      {formik.values.showConfirmPassword ? (
+                        <VisibilityIcon />
+                      ) : (
+                        <VisibilityOffIcon />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
-            <Box>
-              
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={formik.values.role}
-                  name="role"
-                  label="role"
-                  onChange={formik.handleChange}
-                  sx={{ textAlign: "left" }}
-                >
-                  <MenuItem value={"user"}>user</MenuItem>
-                  <MenuItem value={"Admin"}>Admin</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
+
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Role</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={formik.values.role}
+                name="role"
+                label="Role"
+                onChange={formik.handleChange}
+                sx={{ textAlign: "left" }}
+              >
+                <MenuItem value={"user"}>User</MenuItem>
+                <MenuItem value={"admin"}>Admin</MenuItem>
+              </Select>
+            </FormControl>
 
             {statuS ? (
               <Box sx={{ display: "flex", justifyContent: "center" }}>

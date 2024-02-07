@@ -28,7 +28,7 @@ const SignIn = () => {
       if (decode.role === "Guest") {
         navigate("/userPoll");
       } else if (decode.role === "Admin") {
-        navigate("/admin");
+        navigate("/dashboard");
       }
     } else if (signinSlice.data.error === 1) {
       toast.error("User does not exist!", { autoClose: 1000 });
@@ -59,7 +59,7 @@ const SignIn = () => {
   useEffect(() => {
     if (token) {
       if (role === "Admin") {
-        navigate("/admin");
+        navigate("/dashboard");
       } else {
         navigate("/userPoll");
       }

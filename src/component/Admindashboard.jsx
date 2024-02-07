@@ -25,10 +25,7 @@ const Admin = () => {
     dispatch(AdminPollApi());
   }, [dispatch, deleteId, deleteTitleLoading]);
 
-  const logout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
+ 
 
   const deleteTitleData = (titleID) => {
     dispatch(DeleteTitleApi(titleID));

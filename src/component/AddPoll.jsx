@@ -55,7 +55,7 @@ const AddPoll = () => {
             {
               dispatch(AddPollApi(values, newOption));
               setTimeout(() => {
-                navigate("/admin");
+                navigate("/dashboard");
               }, 200);
             }
           } else {
@@ -90,7 +90,7 @@ const AddPoll = () => {
         <form onSubmit={formik.handleSubmit}>
           <Stack direction={"column"} spacing={2} className="form_container">
             <Typography variant="h4" sx={{ textAlign: "center" }}>
-              Add Data Here
+              Add Poll 
             </Typography>
             <TextField
               label={"Title"}
@@ -155,7 +155,7 @@ const AddPoll = () => {
             >
               Submit
             </Button>
-            <Link to={"/admin"} width="100%">
+            <Link to={"/dashboard"} width="100%">
               <Button
                 sx={{
                   background: "#8c7569bf",
