@@ -1,15 +1,52 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { userApi } from "../Redux/slice/UserSlice";
-import { Box, Card, Stack } from "@mui/material";
+import { Box, Card, Stack, Pagination } from "@mui/material";
 
 function Table() {
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(20); 
+  const [displayedPages] = useState(3); 
+
   const userDetails = useSelector((state) => state.userDetails.data);
 
   useEffect(() => {
-    userApi();
+    setLoading(true);
+    userApi()
+      .then(() => setLoading(false))
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+        setLoading(false);
+      });
   }, []);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = userDetails.data.slice(indexOfFirstItem, indexOfLastItem);
+
+  
+  const paginate = (event, value) => setCurrentPage(value);
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+ 
+  const goToNextPage = () => {
+    if (currentPage < Math.ceil(userDetails.data.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+ 
+  const startPage = Math.max(1, currentPage - Math.floor(displayedPages / 2));
+  const endPage = Math.min(
+    startPage + displayedPages - 1,
+    Math.ceil(userDetails.data.length / itemsPerPage)
+  );
 
   return (
     <>
@@ -18,7 +55,7 @@ function Table() {
       ) : (
         <Stack sx={{ width: "70%", gap: 0, margin: "auto" }}>
           <table>
-            <tr>
+          <tr>
               <th>
                 <Card
                   sx={{
@@ -68,16 +105,16 @@ function Table() {
                 </Card>
               </th>
             </tr>
-            {userDetails.data &&
-              userDetails.data.map((user) => (
-                <tr key={user._id}>
+           
+            {currentItems.map((user) => (
+              <tr key={user._id}>
                   <td>
                     <Card
                       sx={{
                         width: 350,
                         padding: 2,
                         boxShadow: 2,
-                        //   bgcolor: "#dbdbdb99",
+                      
                         display: "flex",
                         justifyContent: "center",
                       }}
@@ -117,8 +154,17 @@ function Table() {
                     </Card>
                   </td>
                 </tr>
-              ))}
+            ))}
           </table>
+        
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+            <Pagination
+              count={Math.ceil(userDetails.data.length / itemsPerPage)}
+              page={currentPage}
+              onChange={paginate}
+              color="primary"
+            />
+          </Box>
         </Stack>
       )}
     </>

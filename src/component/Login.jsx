@@ -36,7 +36,7 @@ const SignIn = () => {
     }
     
     dispatch(resetReducer());
-  }, [signinSlice.isSuccess, navigate]);
+  }, [signinSlice.isSuccess]);
 
   const formik = useFormik({
     initialValues: {
@@ -53,18 +53,19 @@ const SignIn = () => {
       } catch (error) {}
     },
   });
-
   let token = localStorage.getItem("token");
   let role = localStorage.getItem("role");
   useEffect(() => {
+    
     if (token) {
-      if (role === "Admin") {
+      if (role === "admin") {
+       
         navigate("/dashboard");
       } else {
         navigate("/userPoll");
       }
     }
-  }, [token, role]);
+  }, [token, role,navigate]);
 
   return (
     <>

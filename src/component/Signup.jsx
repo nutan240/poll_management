@@ -58,7 +58,14 @@ const SignUp = () => {
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Required"),
-      password: Yup.string().required("Required"),
+      password: Yup.string()
+      .min(6, "Password must contain at least one lowercase letter and one digit")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        "Password must contain at least one lowercase letter and one digit"
+      )
+      
+      ,
       confirm_password: Yup.string().oneOf(
         [Yup.ref("password"), null],
         "Passwords must match"
@@ -115,11 +122,12 @@ const SignUp = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              helperText={
-                formik.errors.password &&
-                formik.touched.password &&
-                formik.errors.password
-              }
+               
+              // helperText={
+              //   formik.errors.password &&
+              //   formik.touched.password &&
+              //   formik.errors.password
+              // }
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -142,7 +150,17 @@ const SignUp = () => {
                 ),
               }}
             />
+<Typography variant="p"
+sx={{
+  fontSize : '13px',
+  fontStyle : 'italic'
+}}
+ color={"red"}>
 
+{formik.errors.password &&
+                formik.touched.password &&
+                formik.errors.password}
+</Typography>
             <TextField
               fullWidth
               label="Confirm Password"

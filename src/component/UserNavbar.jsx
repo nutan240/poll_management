@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Card } from "@mui/material";
+import { Card, Stack } from "@mui/material";
 
 
 const settings = ["Profile",   "Logout"];
@@ -37,11 +37,17 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    if (settings.includes("Logout")){
+  const logout = () => {
     localStorage.clear();
     navigate("/");
+  };
+
+   const userprofile = ()=>{
+    navigate("/profile");
    }
+
+  const handleCloseUserMenu = () => {
+    
     setAnchorElUser(null);
   };
 
@@ -120,26 +126,9 @@ function ResponsiveAppBar() {
             POLL MANAGEMENT APP
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <NavLink
-              style={{ textDecoration: "none", color: "black" }}
-              to={"/addPoll"}
-            >
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                add poll
-              </Button>
-            </NavLink>
+           
 
-            <NavLink
-              style={{ textDecoration: "none", color: "black" }}
-              to={"/userdetails"}
-            >
-              <Button sx={{ my: 2, color: "white", display: "block" }}>
-                user details
-              </Button>
-            </NavLink>
+            
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -164,11 +153,42 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+            
+                <MenuItem>
+                  
+                <Stack>
+                  <Typography
+                    sx={{
+                      color: "#8c7569c7",
+                    }}
+                    textAlign="center"
+                  >
+                    <Button
+                      sx={{
+                        color: "#8c7569",
+                        fontWeight: "bold",
+                        paddingX: 1,
+                      }}
+
+                      onClick={userprofile}
+                    >
+                      profile
+                    </Button>
+                  </Typography>
+                  <Typography textAlign="center">
+                    <Button
+                      sx={{
+                        color: "#8c7569",
+                        fontWeight: "bold",
+                      }}
+                      onClick={logout}
+                    >
+                      logout
+                    </Button>
+                  </Typography>
+                </Stack>
                 </MenuItem>
-              ))}
+              
             </Menu>
           </Box>
         </Toolbar>

@@ -8,6 +8,7 @@ import AddPoll from '../component/AddPoll';
 import UserDetails from '../component/UserDetails';
 import EditPoll from "../component/EditPoll";
 import Protected from "./Protected";
+import UserProfileDialog from "../component/UserProfileDialog";
 
 function Router() {
   return (
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/addPoll" element={<AddPoll />} />
       <Route path="/addPoll" element={<AddPoll />} /> 
       <Route   path="/editPoll/:id" element={<EditPoll/>} />
+      <Route   path="/profile" element={<UserProfileDialog/>} />
     </Routes>
   );
 }

@@ -13,6 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Navbar from "./Navbar";
 import EditIcon from "@mui/icons-material/Edit";
 import { DeleteTitleApi } from "../Redux/slice/DeleteTitle";
+import Pagination from "@mui/material/Pagination";
 
 const Admin = () => {
   const dispatch = useDispatch();
@@ -20,12 +21,16 @@ const Admin = () => {
   const pollList = useSelector((state) => state.AdminSlice.data);
   const deleteTitleLoading = useSelector((state) => state.DeleteTitle.loading);
   const [deleteId, setDeleteId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
   useEffect(() => {
     dispatch(AdminPollApi());
   }, [dispatch, deleteId, deleteTitleLoading]);
 
- 
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   const deleteTitleData = (titleID) => {
     dispatch(DeleteTitleApi(titleID));
@@ -38,6 +43,10 @@ const Admin = () => {
       navigate(`/editPoll/${titleID}`, { state: { pollData: selectedPoll } });
     }
   };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = pollList.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <Box
@@ -56,8 +65,8 @@ const Admin = () => {
           margin: "auto",
         }}
       >
-        {pollList && pollList.length > 0 ? (
-          pollList.map((dataList) => (
+        {currentItems && currentItems.length > 0 ? (
+          currentItems.map((dataList) => (
             <Typography
               sx={{
                 border: 1,
@@ -147,6 +156,15 @@ const Admin = () => {
         ) : (
           <Typography variant="h6" textAlign={"center"}></Typography>
         )}
+      </Box>
+
+      <Box sx={{ margin: "auto", width: "50%" }}>
+        <Pagination
+          sx={{ margin: "auto", width: "50%" }}
+          count={Math.ceil(pollList.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+        />
       </Box>
     </Box>
   );

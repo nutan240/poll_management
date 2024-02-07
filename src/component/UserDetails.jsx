@@ -9,7 +9,7 @@ function UserDetails() {
       <Stack>
         <NavLink
           style={{ textDecoration: "none", color: "black" }}
-          to={"/admin"}
+          to={"/dashboard"}
         >
           <Typography
           sx={{ my: 2, color: "#8C7569", display: "block"  , paddingLeft : 3

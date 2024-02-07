@@ -11,6 +11,7 @@ function Userdashboard() {
   const [loading, setLoading] = useState(false);
   const [voteCounts, setVoteCounts] = useState({});
   const [votedOptions, setVotedOptions] = useState({});
+  const [voteTest, setVoteTest] = useState(null); 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,29 +29,37 @@ function Userdashboard() {
     },
   };
 
-  const VoteChange = (dataList, OptionId, OptionData) => {
+  const handleVote = (dataList, OptionId, OptionData, i) => {
+    setVoteTest(i);
     if (votedOptions[dataList.title]) {
       toast.error("You have already voted for this poll.");
       return;
     }
   
-    dispatch(AddVoteApi(OptionId, OptionData, header));
+    dispatch(AddVoteApi(OptionId, OptionData, header))
+      .then(() => {
+        toast.success("Your Vote has been Submitted", { autoClose: 1000 });
   
-    toast.success("Your Vote has been Submitted", { autoClose: 1000 });
+        
+        localStorage.setItem(`${dataList.title}_voted`, OptionData);
   
-    localStorage.setItem(`${dataList.title}_voted`, OptionData);
+       
+        dispatch(updateVoteCounts(OptionId));
   
-    console.log(`Vote added for "${dataList.title}" with OptionId: ${OptionId}`);
+        setVoteCounts((prevCounts) => ({
+          ...prevCounts,
+          [OptionId]: (prevCounts[OptionId] || 0) + 1,
+        }));
   
-    setVoteCounts((prevCounts) => ({
-      ...prevCounts,
-      [OptionId]: (prevCounts[OptionId] || 0) + 1,
-    }));
-  
-    setVotedOptions((prevVotedOptions) => ({
-      ...prevVotedOptions,
-      [dataList.title]: OptionId, // Store the selected OptionId for the poll
-    }));
+        setVotedOptions((prevVotedOptions) => ({
+          ...prevVotedOptions,
+          [dataList.title]: OptionId,
+        }));
+      })
+      .catch((error) => {
+        console.error("Error while adding vote:", error);
+        toast.error("Failed to submit your vote. Please try again later.");
+      });
   };
   
 
@@ -106,54 +115,44 @@ function Userdashboard() {
                         padding: 1,
                       }}
                     >
-                      <div className="pl-5">{dataList.title}</div>
+                      <div className="pl-1">{dataList.title}</div>
                     </Typography>
 
-                    <Typography
-                      sx={{
-                        marginTop: 1,
-                      }}
-                    >
+                    <Typography sx={{ marginTop: 1 }}>
                       <div>
                         {dataList.options.map((option, i) => (
-                          <Typography
-                            sx={{
-                              background: "#d9d2ce ",
-                            }}
-                            key={i}
-                          >
-                            <Typography
-                              sx={{
-                                marginTop: 1,
-                                padding: 1,
-                              }}
-                            >
+                          <Stack direction={'column'} sx={{ background: "#d9d2ce ",
+                        marginTop: 1,
+                          
+                           }} key={i}>
+                            <Stack
+                             direction={'row'} 
+                             sx={{  padding: 1 ,
+                             display : 'flex',
+                             justifyContent : 'space-between'
+                             
+                              }}>
+
+                            <Typography>
                               {option.option}
+                              </Typography>
+                              <Typography>
                               <Button
-  onClick={() =>
-    VoteChange(
-      dataList,
-      dataList._id,
-      option.option
-    )
-  }
-  variant="contained"
-  size="small"
-  sx={{
-    ml: 1,
-    background: "#8c7569c7",
-  }}
->
-  Vote (
-  {votedOptions[dataList.title] === dataList._id
-    ? voteCounts[dataList._id] || 0
-    : 0}
-  )
-</Button>
-
-
-                            </Typography>
-                          </Typography>
+                                onClick={() =>
+                                  handleVote(dataList, dataList._id, option.option, i)
+                                }
+                                variant="contained"
+                                size="small"
+                                sx={{
+                                  ml: 1,
+                                  background: "#8c7569c7",
+                                }}
+                              >
+                                Vote {votedOptions[dataList.title] === dataList._id && i === voteTest ? voteCounts[dataList._id] || 0 : '0'}
+                              </Button>
+                              </Typography>
+                            </Stack>
+                          </Stack>
                         ))}
                       </div>
                     </Typography>

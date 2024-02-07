@@ -13,14 +13,11 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Card } from "@mui/material";
+import { Card, Stack } from "@mui/material";
 
-
-const settings = ["Profile",   "Logout"];
+const settings = ["Profile", "Logout"];
 
 function ResponsiveAppBar() {
-
-
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -37,11 +34,16 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    if (settings.includes("Logout")){
+  const logout = () => {
     localStorage.clear();
     navigate("/");
-   }
+  };
+
+  const handleCloseUserMenu = () => {
+    if (settings.includes("Logout")) {
+      localStorage.clear();
+      navigate("/");
+    }
     setAnchorElUser(null);
   };
 
@@ -103,8 +105,8 @@ function ResponsiveAppBar() {
                 }}
                 to={"/addPoll"}
               >
-                <Card sx={{ width: "80px" }} textAlign="center">
-                  add poll
+                <Card sx={{ width: "100px" }} textAlign="center">
+                  ADD POLL
                 </Card>
               </NavLink>
               <NavLink
@@ -115,15 +117,15 @@ function ResponsiveAppBar() {
                 to={"/userdetails"}
               >
                 <Card
-                  sx={{ width: "80px", marginTop: "10px" }}
+                  sx={{ width: "100px", marginTop: "10px" }}
                   textAlign="center"
                 >
-                  all user
+                  POLL USERS
                 </Card>
               </NavLink>
             </Menu>
           </Box>
-          
+
           <Typography
             variant="h5"
             noWrap
@@ -187,11 +189,42 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem
+                sx={{
+                  margin: 0,
+                  padding: 0,
+                }}
+              >
+                <Stack>
+                  <Typography
+                    sx={{
+                      color: "#8c7569c7",
+                    }}
+                    textAlign="center"
+                  >
+                    <Button
+                      sx={{
+                        color: "#8c7569",
+                        fontWeight: "bold",
+                        paddingX: 1,
+                      }}
+                    >
+                      profile
+                    </Button>
+                  </Typography>
+                  <Typography textAlign="center">
+                    <Button
+                      sx={{
+                        color: "#8c7569",
+                        fontWeight: "bold",
+                      }}
+                      onClick={logout}
+                    >
+                      logout
+                    </Button>
+                  </Typography>
+                </Stack>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

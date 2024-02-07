@@ -38,7 +38,7 @@ const AddVote = createSlice({
   },
 });
 
-export const AddVoteApi = (VoteId, VoteOptionText, header) => async () => {
+export const AddVoteApi = (VoteId, VoteOptionText, header) => async (dispatch) => {
   dispatch(startLoading());
   try {
     let response = await Instance.get(
