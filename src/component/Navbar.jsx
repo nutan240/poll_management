@@ -99,6 +99,7 @@ function ResponsiveAppBar() {
               <MenuIcon />
             </IconButton>
             <Menu
+            
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -118,14 +119,18 @@ function ResponsiveAppBar() {
             >
               <NavLink
                 style={{
-                  width: "20px",
+                  width: "30px",
                   color: "black",
                 }}
                 to={"/addPoll"}
               >
-                <Card sx={{ width: "100px" }} textAlign="center">
+                <Typography sx={{ width: "100px" ,
+                 color: "#8c7569",
+                        fontWeight: "bold",
+                        fontSize : '14px'
+                 }} textAlign="center">
                   ADD POLL
-                </Card>
+                </Typography>
               </NavLink>
               <NavLink
                 style={{
@@ -134,12 +139,16 @@ function ResponsiveAppBar() {
                 }}
                 to={"/userdetails"}
               >
-                <Card
-                  sx={{ width: "100px", marginTop: "10px" }}
+                <Typography
+                  sx={{ width: "100px", marginTop: "10px" ,
+                  color: "#8c7569",
+                        fontWeight: "bold",
+                        fontSize : '14px'
+                   }}
                   textAlign="center"
                 >
                   POLL USERS
-                </Card>
+                </Typography>
               </NavLink>
             </Menu>
           </Box>
@@ -169,7 +178,8 @@ function ResponsiveAppBar() {
             >
               <Button
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ my: 2, color: "white", display: "block"
+                 }}
               >
                 add poll
               </Button>
