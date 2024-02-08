@@ -18,8 +18,9 @@ function Userdashboard() {
   const navigate = useNavigate();
   const pollList = useSelector((state) => state.AdminSlice.data);
   const token = localStorage.getItem("token");
-  const itemsPerPage = 3; // Set the number of items per page
+  const itemsPerPage = 3;
 
+  console.log(pollList, "pollListpollListpollList");
   useEffect(() => {
     setLoading(true);
     dispatch(AdminPollApi()).then(() => setLoading(false));
@@ -41,8 +42,6 @@ function Userdashboard() {
 
     dispatch(AddVoteApi(OptionId, OptionData, header))
       .then(() => {
-        toast.success("Your Vote has been Submitted", { autoClose: 1000 });
-
         localStorage.setItem(`${dataList.title}_voted`, OptionData);
 
         const voteCountKey = `${dataList.title}_${OptionId}_vote`;
@@ -63,6 +62,14 @@ function Userdashboard() {
         console.error("Error while adding vote:", error);
         toast.error("Failed to submit your vote. Please try again later.");
       });
+    toast.success("Your Vote has been Submitted", { autoClose: 500 });
+  };
+
+  const viewsinglepoll = (pollId) => {
+    const selectedPoll = pollList.find((poll) => poll._id === pollId);
+    if (selectedPoll) {
+      navigate(`/singlepoll/${pollId}`, { state: { pollData: selectedPoll } });
+    }
   };
 
   const handlePageChange = (event, value) => {
@@ -78,10 +85,20 @@ function Userdashboard() {
 
   return (
     <>
-      <Box >
+      <Box>
         <UserNavbar />
-        <box >
-          <Typography variant="h4" sx={{ textAlign: "center" }}>
+        <box>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: "bold",
+              fontStyle: "italic",
+              fontSize: "36px",
+              color: "#6f5c52",
+              textDecoration: "underline",
+              textAlign: "center",
+            }}
+          >
             ALL POLLS
           </Typography>
           <Stack sx={{ height: "auto" }}>
@@ -172,6 +189,17 @@ function Userdashboard() {
                                 </Stack>
                               </Stack>
                             ))}
+                            <Button
+                              sx={{
+                                my: 2,
+                                color: "#8C7569",
+                                display: "block",
+                                textDecoration: "underline",
+                              }}
+                              onClick={() => viewsinglepoll(dataList._id)}
+                            >
+                              view a poll
+                            </Button>
                           </div>
                         </Typography>
                       </Typography>
@@ -180,13 +208,22 @@ function Userdashboard() {
             </Box>
           </Stack>
         </box>
-        <Pagination
-          sx={{ textAlign: "center", width: "30%", margin: "auto" }}
-          count={Math.ceil(pollList.length / itemsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-        />
+        <Typography
+          sx={{
+            width: "30%",
+            margin: "auto",
+            display: "flex",
+            justifyContent: "center",
+            paddingBottom: 3,
+          }}
+        >
+          <Pagination
+            count={Math.ceil(pollList.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </Typography>
       </Box>
     </>
   );

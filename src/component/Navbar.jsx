@@ -61,10 +61,7 @@ function ResponsiveAppBar() {
 
 
   const handleCloseUserMenu = () => {
-    if (settings.includes("Logout")) {
-      localStorage.clear();
-      navigate("/");
-    }
+   
     setAnchorElUser(null);
   };
 

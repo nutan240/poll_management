@@ -1,10 +1,22 @@
-import { Card, Stack, Typography } from "@mui/material";
+import { Button, Card, Stack, Typography } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
-import React, { useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const UserProfileDialog = () => {
   const [first, setfirst] = useState("");
+const navigate = useNavigate();
+  const backtopage = () => {
+    const token = localStorage.getItem("token");
+    const role = first.role; 
+    if (token) {
+      if (role === "admin") {
+        navigate("/dashboard");
+      } else {
+        navigate("/userPoll");
+      }
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -12,36 +24,41 @@ const UserProfileDialog = () => {
     setfirst(decode);
     console.log(decode, "");
   }, []);
-  console.log(first, "tyffyth");
+
   return (
     <>
-      
+      <Stack
+        sx={{
+          background: "#cac0ba91",
+          height: "100vh"
+        }}
+      >
+        <Button 
+         sx={{ my: 2, color: "#8C7569", display: "block"  , paddingLeft : 3 ,
+         width : '100px'
+          }}
+        onClick={backtopage}>Go back</Button>
         <Card
           sx={{
             width: 350,
             padding: 2,
             boxShadow: 2,
-            bgcolor: "#8C7569",
             display: "flex",
             justifyContent: "center",
-
-            color: "white",
-            margin :'auto' ,
-            alignContent : 'center',
-            alignItems : 'center'
+            margin: "auto",
+            alignContent: "center",
+            alignItems: "center",
+            height: "200px"
           }}
           variant="outlined"
         >
-        <Stack sx={{
-          textAlign : 'center'
-        }}>
-          <Typography>{` ID :  ${first._id}`}</Typography>
-          <Typography>{` USERNAME :   ${first.username}`}</Typography>
-          <Typography>{` ROLE :   ${first.role}`}</Typography>
+          <Stack sx={{ textAlign: "center" }}>
+            <Typography>{`ID: ${first._id}`}</Typography>
+            <Typography>{`USERNAME: ${first.username}`}</Typography>
+            <Typography>{`ROLE: ${first.role}`}</Typography>
           </Stack>
         </Card>
-      
-     
+      </Stack>
     </>
   );
 };

@@ -23,7 +23,8 @@ const Admin = () => {
   const [deleteId, setDeleteId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
-
+const addvotelo=useSelector((state)=>state.AddVote.loading)
+console.log(addvotelo);
   useEffect(() => {
     dispatch(AdminPollApi());
   }, [dispatch, deleteId, deleteTitleLoading]);

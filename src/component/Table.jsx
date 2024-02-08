@@ -6,8 +6,8 @@ import { Box, Card, Stack, Pagination } from "@mui/material";
 function Table() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(20); 
-  const [displayedPages] = useState(3); 
+  const [itemsPerPage] = useState(50); 
+  const [displayedPages] = useState(3);
 
   const userDetails = useSelector((state) => state.userDetails.data);
 
@@ -25,23 +25,24 @@ function Table() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = userDetails.data.slice(indexOfFirstItem, indexOfLastItem);
 
-  
+  // Change page
   const paginate = (event, value) => setCurrentPage(value);
 
+  // Go to previous page
   const goToPreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
 
- 
+  // Go to next page
   const goToNextPage = () => {
     if (currentPage < Math.ceil(userDetails.data.length / itemsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
 
- 
+  // Calculate the range of visible page numbers
   const startPage = Math.max(1, currentPage - Math.floor(displayedPages / 2));
   const endPage = Math.min(
     startPage + displayedPages - 1,
@@ -114,7 +115,7 @@ function Table() {
                         width: 350,
                         padding: 2,
                         boxShadow: 2,
-                      
+                        //   bgcolor: "#dbdbdb99",
                         display: "flex",
                         justifyContent: "center",
                       }}

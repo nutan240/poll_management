@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import { AddPollApi, resetReducer } from "../Redux/slice/AddSlice";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import DeleteIcon from "@mui/icons-material/Delete";
 const AddPoll = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -90,25 +91,43 @@ const AddPoll = () => {
         <form onSubmit={formik.handleSubmit}>
           <Stack direction={"column"} spacing={2} className="form_container">
             <Typography variant="h4" sx={{ textAlign: "center" }}>
-              Add Poll 
+              Add Poll
             </Typography>
             <TextField
+              sx={{ width: "410px" }}
               label={"Title"}
               name="title"
               value={formik.values.name}
               onChange={formik.handleChange}
             />
-            {newOption.map((e, i) => {
-              return (
+            {newOption.map((e, i) => (
+              <Stack direction={"row"} key={i}>
                 <TextField
-                  key={i}
+                  sx={{ width: "410px" }}
                   label={"Option " + (i + 1)}
                   name={`option`}
                   value={e.option}
                   onChange={(event) => handleChange(event, i)}
                 />
-              );
-            })}
+                {newOption.length > 2 && ( 
+                  <Typography>
+                    <DeleteIcon
+                      sx={{
+                        cursor: "pointer",
+                        display: "flex",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        color: "red",
+                        marginTop: "13px",
+                        fontSize: "30px",
+                      }}
+                      onClick={() => decreseLength()}
+                    />
+                  </Typography>
+                )}
+              </Stack>
+            ))}
+
             <Stack
               direction={"row"}
               sx={{
@@ -118,7 +137,8 @@ const AddPoll = () => {
               <Button
                 variant="contained"
                 sx={{
-                  background: " #8c7569bf",
+                  background:
+                    "linear-gradient(to top, #c79081 0%, #dfa579 100%)",
                   "&:hover": {
                     background: "#6b5b51",
                   },
@@ -127,43 +147,25 @@ const AddPoll = () => {
               >
                 add option
               </Button>
-
-              <Button
-                variant="contained"
-                sx={{
-                  background: " #8c7569bf",
-                  "&:hover": {
-                    background: "#6b5b51",
-                  },
-                }}
-                onClick={() => decreseLength()}
-              >
-                remove option
-              </Button>
             </Stack>
-
             <Button
               variant="contained"
               sx={{
-                background: " #8c7569bf",
-
-                "&:hover": {
-                  background: "#6b5b51",
-                },
+                background: "linear-gradient(to top, #c79081 0%, #dfa579 100%)",
               }}
               type="submit"
             >
               Submit
             </Button>
+
             <Link to={"/dashboard"} width="100%">
               <Button
                 sx={{
-                  background: "#8c7569bf",
+                  background:
+                    "linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)",
+
                   width: "100%",
                   color: "white",
-                  "&:hover": {
-                    background: "#6b5b51",
-                  },
                 }}
               >
                 Cancel
