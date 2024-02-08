@@ -1,13 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Instance from "../../axios/axios";
-import { dispatch } from "../store/store";
-
 
 const initialState = {
   loading: false,
   isError: false,
   isSuccess: false,
-  data: [],
+  data: [], // This should include vote count for each user
 };
 
 const AdminPoll = createSlice({
@@ -34,33 +32,34 @@ const AdminPoll = createSlice({
       state.isError = false;
       state.loading = false;
       state.isSuccess = false;
-      state.data = {};
+      state.data = [];
     },
-
     addVote: (state, action) => {
-      const { optionId } = action.payload;
-    
-      state.data.forEach((poll) => {
-        poll.options.forEach((option) => {
-          if (option._id === optionId) {
-            option.vote = option.vote + 1; 
-          }
-        });
-      });
+      const { pollId, optionId } = action.payload;
+
+      // Find the poll in the state
+      const poll = state.data.find((poll) => poll._id === pollId);
+      if (poll) {
+        // Find the option in the poll and increment its vote count
+        const option = poll.options.find((option) => option._id === optionId);
+        if (option) {
+          option.vote = (option.vote || 0) + 1;
+        }
+      }
     },
   },
 });
 
-export const AdminPollApi = () => async () => {
+export const AdminPollApi = () => async (dispatch) => {
   dispatch(startLoading());
   try {
     let response = await Instance.post(`list_polls`);
-    dispatch(AdminPoll.actions.getSuccess(response.data));
+    dispatch(getSuccess(response.data));
   } catch (e) {
-    dispatch(AdminPoll.actions.hasError(e));
+    dispatch(hasError(e));
   }
 };
 
-export const { startLoading, getSuccess, hasError, resetReducer ,addVote } = AdminPoll.actions;
+export const { startLoading, getSuccess, hasError, resetReducer, addVote } = AdminPoll.actions;
 
 export default AdminPoll.reducer;

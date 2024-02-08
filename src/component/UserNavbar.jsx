@@ -14,11 +14,21 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Card, Stack } from "@mui/material";
+import { jwtDecode } from "jwt-decode";
 
 
 const settings = ["Profile",   "Logout"];
 
 function ResponsiveAppBar() {
+
+  const [first, setfirst] = React.useState("");
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    const decode = jwtDecode(token);
+    setfirst(decode);
+    console.log(decode, "");
+  }, []);
 
 
   const navigate = useNavigate();
@@ -133,10 +143,11 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+  {first.username && <Avatar alt="Remy Sharp">{first.username.charAt(0)}</Avatar>}
+</IconButton>
+
+</Tooltip>
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"

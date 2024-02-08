@@ -18,15 +18,18 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const signinSlice = useSelector((state) => state.signIn);
   const status = signinSlice.loading;
-
   useEffect(() => {
     if (signinSlice.isSuccess && signinSlice.data.token) {
       const decode = jwtDecode(signinSlice.data.token);
+
+console.log(decode , 'decodedecodedecodedecode')
+
       localStorage.setItem("token", signinSlice.data.token);
       localStorage.setItem("role", decode.role);
       dispatch(resetReducer());
       if (decode.role === "Guest") {
-        navigate("/userPoll");
+        navigate("/userPoll", { state: decode }); 
+        navigate("/profile", { state: { decode } });
       } else if (decode.role === "Admin") {
         navigate("/dashboard");
       }

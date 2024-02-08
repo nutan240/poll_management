@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Instance from "../../axios/axios";
-import { dispatch } from "../store/store";
 
 const initialState = {
   loading: false,
@@ -21,7 +20,7 @@ const AddVote = createSlice({
       state.loading = false;
       state.isError = false;
       state.isSuccess = true;
-      state.data = action.payload.data.reverse();
+      state.data = action.payload.data.reverse(); // Assuming the data comes in reverse chronological order
     },
     hasError: (state, action) => {
       state.loading = false;
@@ -34,6 +33,18 @@ const AddVote = createSlice({
       state.loading = false;
       state.isSuccess = false;
       state.data = {};
+    },
+    updateVoteCount(state, action) {
+      const { pollId, optionId, newVoteCount } = action.payload;
+      
+      const poll = state.data.find((poll) => poll._id === pollId);
+      if (poll) {
+        
+        const option = poll.options.find((option) => option._id === optionId);
+        if (option) {
+          option.vote = newVoteCount;
+        }
+      }
     },
   },
 });
@@ -51,7 +62,6 @@ export const AddVoteApi = (VoteId, VoteOptionText, header) => async (dispatch) =
   }
 };
 
-export const { startLoading, loginSuccessful, hasError, resetReducer } =
-  AddVote.actions;
+export const { startLoading, getSuccess, hasError, resetReducer, updateVoteCount } = AddVote.actions;
 
 export default AddVote.reducer;

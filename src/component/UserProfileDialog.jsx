@@ -1,50 +1,48 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Typography, Dialog, DialogContent } from "@mui/material";
-import { userApi } from "../Redux/slice/UserSlice";
+import { Card, Stack, Typography } from "@mui/material";
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
 
-const UserProfileDialog = ({ isOpen, onClose }) => {
- 
 
+const UserProfileDialog = () => {
+  const [first, setfirst] = useState("");
 
   useEffect(() => {
- 
-    userApi()
-      
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-        setLoading(false);
-      });
+    const token = localStorage.getItem("token");
+    const decode = jwtDecode(token);
+    setfirst(decode);
+    console.log(decode, "");
   }, []);
-
-  const userDetails = useSelector((state) =>
-  
-  
-  //   console.log(state.
-  //     userDetails.data.data
-  //      , 'statesdfghj')
-    
-  state.userDetails.data.data
-    );
-
-
+  console.log(first, "tyffyth");
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <DialogContent>
-        <Typography variant="h5">User Profile</Typography>
-        {Array.isArray(userDetails) && userDetails.length > 0 ? (
-          userDetails.map((user) => (
-            <div key={user._id}>
-              <Typography>Username: {user.username}</Typography>
-              <Typography>ID: {user._id}</Typography>
-              <Typography>Role: {user.role}</Typography>
-            </div>
-          ))
-        ) : (
-          <Typography>No user details available</Typography>
-        )}
-      </DialogContent>
-    </Dialog>
+    <>
+      
+        <Card
+          sx={{
+            width: 350,
+            padding: 2,
+            boxShadow: 2,
+            bgcolor: "#8C7569",
+            display: "flex",
+            justifyContent: "center",
+
+            color: "white",
+            margin :'auto' ,
+            alignContent : 'center',
+            alignItems : 'center'
+          }}
+          variant="outlined"
+        >
+        <Stack sx={{
+          textAlign : 'center'
+        }}>
+          <Typography>{` ID :  ${first._id}`}</Typography>
+          <Typography>{` USERNAME :   ${first.username}`}</Typography>
+          <Typography>{` ROLE :   ${first.role}`}</Typography>
+          </Stack>
+        </Card>
+      
+     
+    </>
   );
 };
 

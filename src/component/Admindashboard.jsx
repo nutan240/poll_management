@@ -28,6 +28,9 @@ const Admin = () => {
     dispatch(AdminPollApi());
   }, [dispatch, deleteId, deleteTitleLoading]);
 
+
+
+
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -42,7 +45,7 @@ const Admin = () => {
     if (selectedPoll) {
       navigate(`/editPoll/${titleID}`, { state: { pollData: selectedPoll } });
     }
-  };
+  }; 
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
