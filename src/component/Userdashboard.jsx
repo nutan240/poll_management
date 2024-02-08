@@ -3,10 +3,10 @@ import { Box, Button, Stack, Typography, Pagination } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AdminPollApi, addVote, getSuccess } from "../Redux/slice/AdminSlice";
-import { AddVoteApi , } from "../Redux/slice/AddVote";
+import { AddVoteApi } from "../Redux/slice/AddVote";
 import { ToastContainer, toast } from "react-toastify";
 import UserNavbar from "../component/UserNavbar";
-import 'react-toastify/dist/ReactToastify.css';   
+import "react-toastify/dist/ReactToastify.css";
 
 function Userdashboard() {
   const [loading, setLoading] = useState(false);
@@ -21,16 +21,13 @@ function Userdashboard() {
   const pollList = useSelector((state) => state.AdminSlice.data);
   const token = localStorage.getItem("token");
   const itemsPerPage = 4;
-  const addvoteSuccessloading=useSelector(state=>state.AddVote.isSuccess)
-useEffect(()=>{
- 
-},[addvoteSuccessloading])
+  const addvoteSuccessloading = useSelector((state) => state.AddVote.isSuccess);
+  useEffect(() => {}, [addvoteSuccessloading]);
   console.log(pollList, "pollListpollListpollList");
   useEffect(() => {
     setLoading(true);
     dispatch(AdminPollApi()).then(() => setLoading(false));
   }, [dispatch]);
-
 
   useEffect(() => {
     const storeDisabledOptions = JSON.parse(
@@ -45,7 +42,6 @@ useEffect(()=>{
     localStorage.setItem("disabledOptions", JSON.stringify(disabledOptions));
   }, [disabledOptions]);
 
-
   const header = {
     headers: {
       access_token: token,
@@ -54,34 +50,43 @@ useEffect(()=>{
 
   const handleVote = (dataList, OptionId, OptionData, i) => {
     setVoteTest(i);
-    
-    if (votedOptions[dataList.title]) {
-      toast.error("You have already voted for this poll.");
-      return;
-    }
-  
+
+    const hasVotedForPoll = votedOptions[dataList.title];
+
     dispatch(AddVoteApi(OptionId, OptionData, header))
       .then(() => {
-    
+        // If the user has already voted for this poll, update their vote
+        if (hasVotedForPoll) {
+          // Update the previous vote count
+
+          const previousVoteCountKey = `${dataList.title}_${
+            votedOptions[dataList.title]
+          }_vote`;
+
+          const previousVoteCount =
+            parseInt(localStorage.getItem(previousVoteCountKey)) || 0;
+          localStorage.setItem(previousVoteCountKey, previousVoteCount - 1);
+        }
+
         localStorage.setItem(`${dataList.title}_voted`, OptionData);
-  
+
         const voteCountKey = `${dataList.title}_${OptionId}_vote`;
         const currentVoteCount = localStorage.getItem(voteCountKey) || 0;
         localStorage.setItem(voteCountKey, parseInt(currentVoteCount) + 1);
-  
+
         setVoteCounts((prevCounts) => ({
           ...prevCounts,
           [OptionId]: 1,
         }));
-  
+
         setVotedOptions((prevVotedOptions) => ({
           ...prevVotedOptions,
           [dataList.title]: OptionId,
         }));
-  
+
         setDisabledOptions((prevDisabledOptions) => ({
           ...prevDisabledOptions,
-          [dataList.title]: true, 
+          [`${dataList.title}_${OptionId}`]: true,
         }));
 
         toast.success("Your Vote has been Submitted", { autoClose: 1000 });
@@ -91,7 +96,6 @@ useEffect(()=>{
         toast.error("Failed to submit your vote. Please try again later.");
       });
   };
-  
 
   const viewsinglepoll = (pollId) => {
     const selectedPoll = pollList.find((poll) => poll._id === pollId);
@@ -191,29 +195,37 @@ useEffect(()=>{
                                 >
                                   <Typography>{option.option}</Typography>
                                   <Typography>
-                                  <Button
-  onClick={() =>
-    handleVote(
-      dataList,
-      dataList._id,
-      option.option,
-      i
-    )
-  }
-  variant="contained"
-  size="small"
-  sx={{
-    ml: 1,
-    background: "#8c7569c7",
-  }}
-  disabled={disabledOptions[dataList.title]}
->
-  Vote{" "}
-  {votedOptions[dataList.title] === dataList._id && i === voteTest
-    ? 1
-    : 0}
-</Button>
-
+                                    <Button
+                                      onClick={() =>
+                                        handleVote(
+                                          dataList,
+                                          dataList._id,
+                                          option.option,
+                                          i
+                                        )
+                                      }
+                                      variant="contained"
+                                      size="small"
+                                      sx={{
+                                        ml: 1,
+                                        background: "#8c7569c7",
+                                      }}
+                                      disabled={
+                                        disabledOptions[dataList.title] ||
+                                        (votedOptions[dataList.title] ===
+                                          dataList._id &&
+                                          i === voteTest) ||
+                                        voteCounts[
+                                          `${dataList.title}_${dataList._id}_${i}`
+                                        ] === 1
+                                      }
+                                    >
+                                      Vote{" "}
+                                      {votedOptions[dataList.title] ===
+                                        dataList._id && i === voteTest
+                                        ? 1
+                                        : 0}
+                                    </Button>
                                   </Typography>
                                 </Stack>
                               </Stack>
@@ -239,7 +251,7 @@ useEffect(()=>{
         </box>
         <Typography
           sx={{
-            width: "30%",
+            width: "70%",
             margin: "auto",
             display: "flex",
             justifyContent: "center",
@@ -254,7 +266,7 @@ useEffect(()=>{
           />
         </Typography>
       </Box>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 }

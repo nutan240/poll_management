@@ -22,6 +22,8 @@ const AddPoll = () => {
       toast.error("two Option is necessary");
     }
   };
+
+  
   const increseLength = () => {
     if (newOption.length < 4) {
       setNewOption([...newOption, { option: "" }]);

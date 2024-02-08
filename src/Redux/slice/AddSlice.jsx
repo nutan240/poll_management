@@ -5,7 +5,7 @@ const initialState = {
   loading: false,
   isError: false,
   isSuccess: false,
-  data: {},
+  data: [],
 };
 
 const AddPoll = createSlice({
@@ -20,7 +20,8 @@ const AddPoll = createSlice({
       state.loading = false;
       state.isError = false;
       state.isSuccess = true;
-      state.data = { ...action.payload };
+      state.data.unshift(action.payload); 
+
     },
     hasError: (state, action) => {
       state.loading = false;
@@ -32,16 +33,18 @@ const AddPoll = createSlice({
       state.isError = false;
       state.loading = false;
       state.isSuccess = false;
-      state.data = {};
+      state.data = [];
     },
   },
 });
 
 export const AddPollApi = (payload, newOption) => async (dispatch) => {
+
+  console.log('Payload before dispatch:', payload);
+  
   dispatch(AddPoll.actions.startLoading());
   
   try {
- 
     const optionsString = newOption.map(option => option.option).join('____');
 
     const response = await Instance.post(
@@ -49,6 +52,9 @@ export const AddPollApi = (payload, newOption) => async (dispatch) => {
     );
 
     dispatch(AddPoll.actions.loginSuccessful(response.data));
+
+    console.log('Dispatching AddPollApi action with payload:', payload);
+
   } catch (e) {
     dispatch(AddPoll.actions.hasError(e));
   }

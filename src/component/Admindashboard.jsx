@@ -23,14 +23,10 @@ const Admin = () => {
   const [deleteId, setDeleteId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
-const addvotelo=useSelector((state)=>state.AddVote.loading)
-console.log(addvotelo);
+
   useEffect(() => {
     dispatch(AdminPollApi());
   }, [dispatch, deleteId, deleteTitleLoading]);
-
-
-
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -46,11 +42,11 @@ console.log(addvotelo);
     if (selectedPoll) {
       navigate(`/editPoll/${titleID}`, { state: { pollData: selectedPoll } });
     }
-  }; 
+  };
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = pollList.slice(indexOfFirstItem, indexOfLastItem);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = pollList.slice(startIndex, endIndex);
 
   return (
     <Box
@@ -131,9 +127,10 @@ console.log(addvotelo);
                 {dataList._id === deleteId && deleteTitleLoading ? (
                   <Typography sx={{ height: "10px" }}>
                     <CircularProgress
-                      color="inherit"
                       sx={{
                         width: "10px",
+                        height: "5px",
+                        color: "red",
                       }}
                     />
                   </Typography>
@@ -164,7 +161,7 @@ console.log(addvotelo);
 
       <Box sx={{ margin: "auto", width: "50%" }}>
         <Pagination
-          sx={{ margin: "auto", width: "50%" }}
+          sx={{ margin: "auto", width: "60%" }}
           count={Math.ceil(pollList.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}

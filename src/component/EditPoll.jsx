@@ -25,14 +25,16 @@ const EditPoll = () => {
     },
     onSubmit: async (values) => {
       try {
+        const trimmedTitle = values.title.trim();
+
         if (values.title.trim() !== "") {
           if (location.state && location.state.pollData) {
             const id = location.state.pollData._id;
-            const updatedData = values.title;
+            const updatedData = trimmedTitle; 
             
-            setIsLoading(true); // Show loader when update is initiated
+            setIsLoading(true);
             const updatedPoll = await dispatch(updatePoll(id, updatedData));
-            setIsLoading(false); // Hide loader after receiving API response
+            setIsLoading(false); 
             
             console.log("Poll updated successfully", updatedPoll);
             toast.success("Poll updated successfully");
@@ -46,7 +48,7 @@ const EditPoll = () => {
         }
       } catch (error) {
         console.error("Error:", error);
-        setIsLoading(false); // Hide loader in case of error
+        setIsLoading(false);
       }
     },
   });
@@ -85,7 +87,7 @@ const EditPoll = () => {
               onChange={formik.handleChange}
             />
             {isLoading ? (
-              <CircularProgress color="primary" /> // Show loader if isLoading is true
+              <CircularProgress color="primary" /> 
             ) : (
               <Button
                 type="submit"
