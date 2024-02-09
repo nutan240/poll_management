@@ -1,7 +1,6 @@
-
 import { createSlice } from "@reduxjs/toolkit";
 import Instance from "../../axios/axios";
-import {dispatch} from '../store/store'
+import { dispatch } from "../store/store";
 const initialState = {
   loading: false,
   isError: false,
@@ -41,9 +40,7 @@ const DeleteTitle = createSlice({
 export const DeleteTitleApi = (payload) => async () => {
   dispatch(DeleteTitle.actions.startLoading());
   try {
-    let response = await Instance.delete(
-      `delete_poll?id=${payload}`
-    );
+    let response = await Instance.delete(`delete_poll?id=${payload}`);
     dispatch(DeleteTitle.actions.loginSuccessful(response.data));
   } catch (e) {
     dispatch(DeleteTitle.actions.hasError(e));

@@ -34,29 +34,26 @@ const updateSlice = createSlice({
   },
 });
 
-
 export const updatePoll = (pollId, updatedData) => async (dispatch) => {
-
-
-    console.log(updatedData , pollId ,'pollIddddddddddddddd');
+  console.log(updatedData, pollId, "pollIddddddddddddddd");
 
   dispatch(startLoading());
   try {
-   
-    const response = await Instance.put(`/update_poll_title?id=${pollId}&title=${updatedData}`, updatedData);
-    
+    const response = await Instance.put(
+      `/update_poll_title?id=${pollId}&title=${updatedData}`,
+      updatedData
+    );
 
     dispatch(updateSuccess());
     console.log(response.data);
   } catch (error) {
     console.log(error);
-  
+
     dispatch(updateError(error.message));
   }
 };
 
 export const { startLoading, updateSuccess, updateError, resetState } =
   updateSlice.actions;
-
 
 export default updateSlice.reducer;

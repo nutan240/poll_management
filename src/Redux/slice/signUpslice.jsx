@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Instance from "../../axios/axios";
 
-
 const initialState = {
   loading: false,
   isError: false,
@@ -9,7 +8,7 @@ const initialState = {
   data: {},
 };
 
- export const signUp = createSlice({
+export const signUp = createSlice({
   name: "signUp",
   initialState: initialState,
   reducers: {
@@ -46,9 +45,10 @@ export const signUpApi = (payload) => async (dispatch) => {
     dispatch(loginSuccessful(response.data));
   } catch (e) {
     dispatch(hasError(e));
-    console.log(e,'sdffsf');
+    console.log(e, "sdffsf");
   }
 };
-export const { startLoading, loginSuccessful, hasError, signupResetReducer } = signUp.actions;
+export const { startLoading, loginSuccessful, hasError, signupResetReducer } =
+  signUp.actions;
 
 export default signUp.reducer;

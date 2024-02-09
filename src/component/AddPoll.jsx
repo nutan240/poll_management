@@ -98,7 +98,17 @@ const AddPoll = () => {
       >
         <form onSubmit={formik.handleSubmit}>
           <Stack direction={"column"} spacing={2} className="form_container">
-            <Typography variant="h4" sx={{ textAlign: "center" }}>
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: "bold",
+                fontStyle: "italic",
+                fontSize: "36px",
+                color: "#6f5c52",
+                textDecoration: "underline",
+                textAlign: "center",
+              }}
+            >
               Add Poll
             </Typography>
             <TextField
@@ -142,20 +152,23 @@ const AddPoll = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Button
-                variant="contained"
-                sx={{
-                  background:
-                    "linear-gradient(to top, #c79081 0%, #dfa579 100%)",
-                  "&:hover": {
-                    background: "#6b5b51",
-                  },
-                }}
-                onClick={() => increseLength()}
-              >
-                add option
-              </Button>
+              {newOption.length < 4 && (
+                <Button
+                  variant="contained"
+                  sx={{
+                    background:
+                      "linear-gradient(to top, #c79081 0%, #dfa579 100%)",
+                    "&:hover": {
+                      background: "#6b5b51",
+                    },
+                  }}
+                  onClick={() => increseLength()}
+                >
+                  Add Option
+                </Button>
+              )}
             </Stack>
+
             <Button
               variant="contained"
               sx={{

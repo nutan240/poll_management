@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Stack, TextField, Typography, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import { useFormik } from "formik";
 import { updatePoll, resetState } from "../Redux/slice/UpdateSlice";
@@ -30,12 +37,12 @@ const EditPoll = () => {
         if (values.title.trim() !== "") {
           if (location.state && location.state.pollData) {
             const id = location.state.pollData._id;
-            const updatedData = trimmedTitle; 
-            
+            const updatedData = trimmedTitle;
+
             setIsLoading(true);
             const updatedPoll = await dispatch(updatePoll(id, updatedData));
-            setIsLoading(false); 
-            
+            setIsLoading(false);
+
             console.log("Poll updated successfully", updatedPoll);
             toast.success("Poll updated successfully");
             setTimeout(() => {
@@ -70,12 +77,12 @@ const EditPoll = () => {
             <Typography
               variant="h4"
               sx={{
-                fontWeight: 'bold',
-                fontStyle: 'italic',
-                fontSize: '36px',
-                color: '#6f5c52',
-                textDecoration: 'underline',
-                textAlign: 'center'
+                fontWeight: "bold",
+                fontStyle: "italic",
+                fontSize: "36px",
+                color: "#6f5c52",
+                textDecoration: "underline",
+                textAlign: "center",
               }}
             >
               Update title Here
@@ -87,7 +94,7 @@ const EditPoll = () => {
               onChange={formik.handleChange}
             />
             {isLoading ? (
-              <CircularProgress color="primary" /> 
+              <CircularProgress color="primary" />
             ) : (
               <Button
                 type="submit"
@@ -96,7 +103,7 @@ const EditPoll = () => {
                   background: "#8c7569bf",
                   "&:hover": {
                     background: "#6b5b51",
-                  }
+                  },
                 }}
               >
                 Update
@@ -104,7 +111,11 @@ const EditPoll = () => {
             )}
             <Link to={"/dashboard"} width="100%">
               <Button
-                sx={{ background: "#8c7569bf", width: "100%", "&:hover": { background: "#6b5b51" } }}
+                sx={{
+                  background: "#8c7569bf",
+                  width: "100%",
+                  "&:hover": { background: "#6b5b51" },
+                }}
                 variant="contained"
               >
                 Cancel

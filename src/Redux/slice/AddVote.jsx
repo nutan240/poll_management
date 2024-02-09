@@ -20,7 +20,7 @@ const AddVote = createSlice({
       state.loading = false;
       state.isError = false;
       state.isSuccess = true;
-      state.data = action.payload.data.reverse(); // Assuming the data comes in reverse chronological order
+      state.data = action.payload.data.reverse();
     },
     hasError: (state, action) => {
       state.loading = false;
@@ -36,10 +36,9 @@ const AddVote = createSlice({
     },
     updateVoteCount(state, action) {
       const { pollId, optionId, newVoteCount } = action.payload;
-      
+
       const poll = state.data.find((poll) => poll._id === pollId);
       if (poll) {
-        
         const option = poll.options.find((option) => option._id === optionId);
         if (option) {
           option.vote = newVoteCount;
@@ -49,19 +48,26 @@ const AddVote = createSlice({
   },
 });
 
-export const AddVoteApi = (VoteId, VoteOptionText, header) => async (dispatch) => {
-  dispatch(startLoading());
-  try {
-    let response = await Instance.get(
-      `do_vote?id=${VoteId}&option_text=${VoteOptionText}`,
-      header
-    );
-    dispatch(AddVote.actions.getSuccess(response.data));
-  } catch (e) {
-    dispatch(AddVote.actions.hasError(e));
-  }
-};
+export const AddVoteApi =
+  (VoteId, VoteOptionText, header) => async (dispatch) => {
+    dispatch(startLoading());
+    try {
+      let response = await Instance.get(
+        `do_vote?id=${VoteId}&option_text=${VoteOptionText}`,
+        header
+      );
+      dispatch(AddVote.actions.getSuccess(response.data));
+    } catch (e) {
+      dispatch(AddVote.actions.hasError(e));
+    }
+  };
 
-export const { startLoading, getSuccess, hasError, resetReducer, updateVoteCount } = AddVote.actions;
+export const {
+  startLoading,
+  getSuccess,
+  hasError,
+  resetReducer,
+  updateVoteCount,
+} = AddVote.actions;
 
 export default AddVote.reducer;

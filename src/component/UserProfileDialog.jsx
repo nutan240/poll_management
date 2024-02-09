@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const UserProfileDialog = () => {
   const [userProfileInfo, setuserProfileInfo] = useState("");
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const backtopage = () => {
     const token = localStorage.getItem("token");
-    const role = userProfileInfo.role; 
+    const role = userProfileInfo.role;
     if (token) {
       if (role === "admin") {
         navigate("/dashboard");
@@ -22,7 +22,6 @@ const navigate = useNavigate();
     const token = localStorage.getItem("token");
     const decode = jwtDecode(token);
     setuserProfileInfo(decode);
-    console.log(decode, "");
   }, []);
 
   return (
@@ -30,14 +29,21 @@ const navigate = useNavigate();
       <Stack
         sx={{
           background: "#cac0ba91",
-          height: "100vh"
+          height: "100vh",
         }}
       >
-        <Button 
-         sx={{ my: 2, color: "#8C7569", display: "block"  , paddingLeft : 3 ,
-         width : '100px'
+        <Button
+          sx={{
+            my: 2,
+            color: "#8C7569",
+            display: "block",
+            paddingLeft: 3,
+            width: "100px",
           }}
-        onClick={backtopage}>Go back</Button>
+          onClick={backtopage}
+        >
+          Go back
+        </Button>
         <Card
           sx={{
             width: 350,
@@ -48,7 +54,7 @@ const navigate = useNavigate();
             margin: "auto",
             alignContent: "center",
             alignItems: "center",
-            height: "200px"
+            height: "200px",
           }}
           variant="outlined"
         >

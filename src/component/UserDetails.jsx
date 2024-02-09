@@ -12,9 +12,11 @@ function UserDetails() {
           to={"/dashboard"}
         >
           <Typography
-          sx={{ my: 2, color: "#8C7569", display: "block"  , paddingLeft : 3
-          }}
-          >  Go Back </Typography>
+            sx={{ my: 2, color: "#8C7569", display: "block", paddingLeft: 3 }}
+          >
+            {" "}
+            Go Back{" "}
+          </Typography>
         </NavLink>
         <Table />
       </Stack>

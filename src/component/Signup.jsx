@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-
 import {
   Box,
   Button,
@@ -21,11 +20,14 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { signUpApi, signupResetReducer, startLoading } from "../Redux/slice/signUpslice";
+import {
+  signUpApi,
+  signupResetReducer,
+  startLoading,
+} from "../Redux/slice/signUpslice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { dispatch } from "../Redux/store/store";
-
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -43,8 +45,8 @@ const SignUp = () => {
       dispatch(signupResetReducer());
       setTimeout(() => {
         navigate("/");
-      }, 1000); 
-      toast.success("Sign up successful!"  , { autoClose: 1000 });
+      }, 1000);
+      toast.success("Sign up successful!", { autoClose: 1000 });
     }
   }, [signupSlice.isSuccess]);
 
@@ -60,13 +62,15 @@ const SignUp = () => {
     validationSchema: Yup.object({
       name: Yup.string().required("Required"),
       password: Yup.string()
-      .min(6, "Password must contain at least one lowercase letter and one digit")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-        "Password must contain at least one lowercase letter and one digit"
-      )
-      
-      ,
+        .min(
+          6,
+          "Password must contain at least one lowercase letter and one digit"
+        )
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+          "Password must contain at least one lowercase letter and one digit"
+        ),
+
       confirm_password: Yup.string().oneOf(
         [Yup.ref("password"), null],
         "Passwords must match"
@@ -76,7 +80,6 @@ const SignUp = () => {
       try {
         dispatch(startLoading());
         dispatch(signUpApi(values));
-    
       } catch (error) {
         dispatch(signupResetReducer());
       }
@@ -124,8 +127,6 @@ const SignUp = () => {
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-               
-        
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -148,17 +149,18 @@ const SignUp = () => {
                 ),
               }}
             />
-<Typography variant="p"
-sx={{
-  fontSize : '13px',
-  fontStyle : 'italic'
-}}
- color={"red"}>
-
-{formik.errors.password &&
+            <Typography
+              variant="p"
+              sx={{
+                fontSize: "13px",
+                fontStyle: "italic",
+              }}
+              color={"red"}
+            >
+              {formik.errors.password &&
                 formik.touched.password &&
                 formik.errors.password}
-</Typography>
+            </Typography>
             <TextField
               fullWidth
               label="Confirm Password"
@@ -179,7 +181,8 @@ sx={{
                       onClick={() =>
                         formik.setValues({
                           ...formik.values,
-                          showConfirmPassword: !formik.values.showConfirmPassword,
+                          showConfirmPassword:
+                            !formik.values.showConfirmPassword,
                         })
                       }
                       edge="end"
@@ -236,7 +239,6 @@ sx={{
           </Box>
         </Stack>
       </Box>
-    
     </>
   );
 };

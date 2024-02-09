@@ -46,10 +46,11 @@ export const signInApi = (payload) => async (dispatch) => {
     dispatch(loginSuccessful(response.data));
   } catch (e) {
     dispatch(hasError(e));
-    console.log(e,'afadfadf');
+    console.log(e, "afadfadf");
   }
 };
 
-export const { startLoading, loginSuccessful, hasError, resetReducer } = signIn.actions;
+export const { startLoading, loginSuccessful, hasError, resetReducer } =
+  signIn.actions;
 
 export default signIn.reducer;

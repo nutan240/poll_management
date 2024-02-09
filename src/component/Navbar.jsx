@@ -16,11 +16,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Card, Stack } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 
-const settings = ["Profile", "Logout"];
-
 function ResponsiveAppBar() {
-
-
   const [userProfileInfo, setuserProfileInfo] = React.useState("");
 
   React.useEffect(() => {
@@ -29,10 +25,6 @@ function ResponsiveAppBar() {
     setuserProfileInfo(decode);
     console.log(decode, "");
   }, []);
-
-
-
-
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -54,14 +46,11 @@ function ResponsiveAppBar() {
     navigate("/");
   };
 
-  
-  const userprofile = ()=>{
+  const userprofile = () => {
     navigate("/profile");
-   }
-
+  };
 
   const handleCloseUserMenu = () => {
-   
     setAnchorElUser(null);
   };
 
@@ -99,7 +88,6 @@ function ResponsiveAppBar() {
               <MenuIcon />
             </IconButton>
             <Menu
-            
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -124,11 +112,15 @@ function ResponsiveAppBar() {
                 }}
                 to={"/addPoll"}
               >
-                <Typography sx={{ width: "100px" ,
-                 color: "#8c7569",
-                        fontWeight: "bold",
-                        fontSize : '14px'
-                 }} textAlign="center">
+                <Typography
+                  sx={{
+                    width: "100px",
+                    color: "#8c7569",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                  }}
+                  textAlign="center"
+                >
                   ADD POLL
                 </Typography>
               </NavLink>
@@ -140,11 +132,13 @@ function ResponsiveAppBar() {
                 to={"/userdetails"}
               >
                 <Typography
-                  sx={{ width: "100px", marginTop: "10px" ,
-                  color: "#8c7569",
-                        fontWeight: "bold",
-                        fontSize : '14px'
-                   }}
+                  sx={{
+                    width: "100px",
+                    marginTop: "10px",
+                    color: "#8c7569",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                  }}
                   textAlign="center"
                 >
                   POLL USERS
@@ -178,8 +172,7 @@ function ResponsiveAppBar() {
             >
               <Button
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block"
-                 }}
+                sx={{ my: 2, color: "white", display: "block" }}
               >
                 add poll
               </Button>
@@ -196,12 +189,15 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-  {userProfileInfo.username && <Avatar alt="Remy Sharp">{userProfileInfo.username.charAt(0)}</Avatar>}
-</IconButton>
-
-</Tooltip>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                {userProfileInfo.username && (
+                  <Avatar alt="Remy Sharp">
+                    {userProfileInfo.username.charAt(0)}
+                  </Avatar>
+                )}
+              </IconButton>
+            </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
@@ -237,7 +233,6 @@ function ResponsiveAppBar() {
                         fontWeight: "bold",
                         paddingX: 1,
                       }}
-
                       onClick={userprofile}
                     >
                       profile

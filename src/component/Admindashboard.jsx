@@ -18,7 +18,6 @@ import Pagination from "@mui/material/Pagination";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const Admin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,7 +38,7 @@ const Admin = () => {
   const deleteTitleData = (titleID) => {
     dispatch(DeleteTitleApi(titleID));
     setDeleteId(titleID);
-    toast.success("Title deleted successfully!" , { autoClose: 1000 });
+    toast.success("Title deleted successfully!", { autoClose: 1000 });
   };
 
   const handleEditClick = (titleID) => {
@@ -165,11 +164,15 @@ const Admin = () => {
         )}
       </Box>
 
-      <Box sx={{ margin: "auto", width: {sm : "70%" }}}>
+      <Box sx={{ margin: "auto", width: { sm: "70%" } }}>
         <Pagination
-          sx={{ margin: "auto", width: {  
-            lg : '35%' ,
-            sm : "70%" } }}
+          sx={{
+            margin: "auto",
+            width: {
+              lg: "35%",
+              sm: "70%",
+            },
+          }}
           count={Math.ceil(pollList.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}

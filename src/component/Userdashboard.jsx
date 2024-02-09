@@ -25,7 +25,7 @@ function Userdashboard() {
 
   const addvoteSuccessloading = useSelector((state) => state.AddVote.isSuccess);
   useEffect(() => {}, [addvoteSuccessloading]);
-  console.log(pollList, "pollListpollListpollList");
+
   useEffect(() => {
     setLoading(true);
     dispatch(AdminPollApi()).then(() => setLoading(false));
@@ -57,10 +57,7 @@ function Userdashboard() {
 
     dispatch(AddVoteApi(OptionId, OptionData, header))
       .then(() => {
-        
         if (hasVotedForPoll) {
-          
-
           const previousVoteCountKey = `${dataList.title}_${
             votedOptions[dataList.title]
           }_vote`;

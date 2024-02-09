@@ -11,11 +11,9 @@ const Table = () => {
 
   const userDetails = useSelector((state) => state.userDetails.data);
 
-  // Moved initialization above their usage
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  // Using optional chaining to avoid accessing properties of undefined
   const currentItems = userDetails?.data
     ? userDetails.data.slice(indexOfFirstItem, indexOfLastItem)
     : [];
@@ -30,7 +28,7 @@ const Table = () => {
       });
   }, []);
 
-  // Change page
+ 
   const paginate = (event, value) => setCurrentPage(value);
 
   return (

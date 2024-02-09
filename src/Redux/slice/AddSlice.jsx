@@ -20,8 +20,7 @@ const AddPoll = createSlice({
       state.loading = false;
       state.isError = false;
       state.isSuccess = true;
-      state.data.unshift(action.payload); 
-
+      state.data.unshift(action.payload);
     },
     hasError: (state, action) => {
       state.loading = false;
@@ -39,13 +38,10 @@ const AddPoll = createSlice({
 });
 
 export const AddPollApi = (payload, newOption) => async (dispatch) => {
-
-  console.log('Payload before dispatch:', payload);
-  
   dispatch(AddPoll.actions.startLoading());
-  
+
   try {
-    const optionsString = newOption.map(option => option.option).join('____');
+    const optionsString = newOption.map((option) => option.option).join("____");
 
     const response = await Instance.post(
       `add_poll?title=${payload.title}&options=${optionsString}`
@@ -53,8 +49,7 @@ export const AddPollApi = (payload, newOption) => async (dispatch) => {
 
     dispatch(AddPoll.actions.loginSuccessful(response.data));
 
-    console.log('Dispatching AddPollApi action with payload:', payload);
-
+    console.log("Dispatching AddPollApi action with payload:", payload);
   } catch (e) {
     dispatch(AddPoll.actions.hasError(e));
   }

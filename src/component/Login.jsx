@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Stack, TextField, Typography, IconButton, InputAdornment } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 import { useFormik } from "formik";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -27,18 +35,18 @@ const SignIn = () => {
       localStorage.setItem("role", decode.role);
       dispatch(resetReducer());
       if (decode.role === "Guest") {
-        navigate("/userPoll", { state: decode }); 
+        navigate("/userPoll", { state: decode });
         navigate("/profile", { state: { decode } });
       } else if (decode.role === "Admin") {
         navigate("/dashboard");
       }
-      
+
       toast.success("Sign in successful!", { autoClose: 1000 });
     } else if (signinSlice.data.error === 1) {
       toast.error("User does not exist!", { autoClose: 1000 });
       setButtonDisable(false);
     }
-    
+
     dispatch(resetReducer());
   }, [signinSlice.isSuccess]);
 
@@ -74,7 +82,11 @@ const SignIn = () => {
   return (
     <>
       <Box sx={{ marginTop: 5 }}>
-        <Stack direction={"column"} spacing={2} sx={{ width: 500, margin: "auto", boxShadow: 3, padding: 5 }}>
+        <Stack
+          direction={"column"}
+          spacing={2}
+          sx={{ width: 500, margin: "auto", boxShadow: 3, padding: 5 }}
+        >
           <Typography variant="h4">sign in..</Typography>
           <Stack
             sx={{ width: "100%", fontSize: "19px" }}
@@ -93,11 +105,13 @@ const SignIn = () => {
               onBlur={formik.handleBlur}
               helperText={
                 <Typography variant="p" color={"red"}>
-                  {formik.errors.name && formik.touched.name && formik.errors.name}
+                  {formik.errors.name &&
+                    formik.touched.name &&
+                    formik.errors.name}
                 </Typography>
               }
             />
-           
+
             <TextField
               fullWidth
               label="Password"
@@ -126,15 +140,16 @@ const SignIn = () => {
               </Box>
             ) : (
               <Button
-  variant="contained"
-  sx={{
-    background: 'linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)'
-  }}
-  type="submit"
-  disabled={buttonDisable}
->
-  Sign In
-</Button>
+                variant="contained"
+                sx={{
+                  background:
+                    "linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)",
+                }}
+                type="submit"
+                disabled={buttonDisable}
+              >
+                Sign In
+              </Button>
             )}
           </Stack>
           <NavLink style={{ color: "#1565c0" }} to={"/signup"} variant="body2">

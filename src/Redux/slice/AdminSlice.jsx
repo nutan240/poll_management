@@ -5,7 +5,7 @@ const initialState = {
   loading: false,
   isError: false,
   isSuccess: false,
-  data: [], // This should include vote count for each user
+  data: [], 
 };
 
 const AdminPoll = createSlice({
@@ -37,10 +37,8 @@ const AdminPoll = createSlice({
     addVote: (state, action) => {
       const { pollId, optionId } = action.payload;
 
-      // Find the poll in the state
       const poll = state.data.find((poll) => poll._id === pollId);
       if (poll) {
-        // Find the option in the poll and increment its vote count
         const option = poll.options.find((option) => option._id === optionId);
         if (option) {
           option.vote = (option.vote || 0) + 1;
@@ -60,6 +58,7 @@ export const AdminPollApi = () => async (dispatch) => {
   }
 };
 
-export const { startLoading, getSuccess, hasError, resetReducer, addVote } = AdminPoll.actions;
+export const { startLoading, getSuccess, hasError, resetReducer, addVote } =
+  AdminPoll.actions;
 
 export default AdminPoll.reducer;
