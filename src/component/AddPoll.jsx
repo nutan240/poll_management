@@ -23,7 +23,6 @@ const AddPoll = () => {
     }
   };
 
-  
   const increseLength = () => {
     if (newOption.length < 4) {
       setNewOption([...newOption, { option: "" }]);
@@ -40,6 +39,13 @@ const AddPoll = () => {
       }
       return option;
     });
+    setNewOption(updatedOptions);
+  };
+
+  const handleDeleteOption = (indexToDelete) => {
+    const updatedOptions = newOption.filter(
+      (_, index) => index !== indexToDelete
+    );
     setNewOption(updatedOptions);
   };
 
@@ -111,7 +117,7 @@ const AddPoll = () => {
                   value={e.option}
                   onChange={(event) => handleChange(event, i)}
                 />
-                {newOption.length > 2 && ( 
+                {newOption.length > 2 && (
                   <Typography>
                     <DeleteIcon
                       sx={{
@@ -123,7 +129,7 @@ const AddPoll = () => {
                         marginTop: "13px",
                         fontSize: "30px",
                       }}
-                      onClick={() => decreseLength()}
+                      onClick={() => handleDeleteOption(i)}
                     />
                   </Typography>
                 )}

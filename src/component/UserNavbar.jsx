@@ -21,12 +21,12 @@ const settings = ["Profile",   "Logout"];
 
 function ResponsiveAppBar() {
 
-  const [first, setfirst] = React.useState("");
+  const [userProfileInfo, setuserProfileInfo] = React.useState("");
 
   React.useEffect(() => {
     const token = localStorage.getItem("token");
     const decode = jwtDecode(token);
-    setfirst(decode);
+    setuserProfileInfo(decode);
     console.log(decode, "");
   }, []);
 
@@ -144,7 +144,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-  {first.username && <Avatar alt="Remy Sharp">{first.username.charAt(0)}</Avatar>}
+  {userProfileInfo.username && <Avatar alt="Remy Sharp">{userProfileInfo.username.charAt(0)}</Avatar>}
 </IconButton>
 
 </Tooltip>

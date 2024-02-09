@@ -41,9 +41,10 @@ const SignUp = () => {
     } else if (signupSlice.data.error === 0) {
       setButtonDisable(true);
       dispatch(signupResetReducer());
-      navigate("/");
-      
-      toast.success("Sign up successful!");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000); 
+      toast.success("Sign up successful!"  , { autoClose: 1000 });
     }
   }, [signupSlice.isSuccess]);
 
@@ -75,6 +76,7 @@ const SignUp = () => {
       try {
         dispatch(startLoading());
         dispatch(signUpApi(values));
+    
       } catch (error) {
         dispatch(signupResetReducer());
       }
@@ -123,11 +125,7 @@ const SignUp = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
                
-              // helperText={
-              //   formik.errors.password &&
-              //   formik.touched.password &&
-              //   formik.errors.password
-              // }
+        
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -238,7 +236,7 @@ sx={{
           </Box>
         </Stack>
       </Box>
-      <ToastContainer />
+    
     </>
   );
 };

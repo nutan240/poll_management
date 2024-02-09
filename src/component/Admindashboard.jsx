@@ -15,6 +15,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import { DeleteTitleApi } from "../Redux/slice/DeleteTitle";
 import Pagination from "@mui/material/Pagination";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 const Admin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,6 +39,7 @@ const Admin = () => {
   const deleteTitleData = (titleID) => {
     dispatch(DeleteTitleApi(titleID));
     setDeleteId(titleID);
+    toast.success("Title deleted successfully!" , { autoClose: 1000 });
   };
 
   const handleEditClick = (titleID) => {
@@ -44,9 +49,10 @@ const Admin = () => {
     }
   };
 
+  const reversedPollList = [...pollList].reverse();
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentItems = pollList.slice(startIndex, endIndex);
+  const currentItems = reversedPollList.slice(startIndex, endIndex);
 
   return (
     <Box
@@ -159,14 +165,17 @@ const Admin = () => {
         )}
       </Box>
 
-      <Box sx={{ margin: "auto", width: "50%" }}>
+      <Box sx={{ margin: "auto", width: {sm : "70%" }}}>
         <Pagination
-          sx={{ margin: "auto", width: "60%" }}
+          sx={{ margin: "auto", width: {  
+            lg : '35%' ,
+            sm : "70%" } }}
           count={Math.ceil(pollList.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
         />
       </Box>
+      <ToastContainer />
     </Box>
   );
 };

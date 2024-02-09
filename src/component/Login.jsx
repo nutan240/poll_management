@@ -18,11 +18,10 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const signinSlice = useSelector((state) => state.signIn);
   const status = signinSlice.loading;
+
   useEffect(() => {
     if (signinSlice.isSuccess && signinSlice.data.token) {
       const decode = jwtDecode(signinSlice.data.token);
-
-console.log(decode , 'decodedecodedecodedecode')
 
       localStorage.setItem("token", signinSlice.data.token);
       localStorage.setItem("role", decode.role);
@@ -33,6 +32,8 @@ console.log(decode , 'decodedecodedecodedecode')
       } else if (decode.role === "Admin") {
         navigate("/dashboard");
       }
+      
+      toast.success("Sign in successful!", { autoClose: 1000 });
     } else if (signinSlice.data.error === 1) {
       toast.error("User does not exist!", { autoClose: 1000 });
       setButtonDisable(false);
@@ -51,24 +52,24 @@ console.log(decode , 'decodedecodedecodedecode')
       try {
         if (!signinSlice.data.token) {
           dispatch(resetReducer());
+          toast.success("Sign in successful!", { autoClose: 1000 });
         }
         await dispatch(signInApi(values));
       } catch (error) {}
     },
   });
+
   let token = localStorage.getItem("token");
   let role = localStorage.getItem("role");
   useEffect(() => {
-    
     if (token) {
       if (role === "admin") {
-       
         navigate("/dashboard");
       } else {
         navigate("/userPoll");
       }
     }
-  }, [token, role,navigate]);
+  }, [token, role, navigate]);
 
   return (
     <>
@@ -82,7 +83,6 @@ console.log(decode , 'decodedecodedecodedecode')
             component="form"
             onSubmit={formik.handleSubmit}
           >
-            
             <TextField
               fullWidth
               label="User Name"

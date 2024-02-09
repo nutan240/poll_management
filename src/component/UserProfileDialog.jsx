@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UserProfileDialog = () => {
-  const [first, setfirst] = useState("");
+  const [userProfileInfo, setuserProfileInfo] = useState("");
 const navigate = useNavigate();
   const backtopage = () => {
     const token = localStorage.getItem("token");
-    const role = first.role; 
+    const role = userProfileInfo.role; 
     if (token) {
       if (role === "admin") {
         navigate("/dashboard");
@@ -21,7 +21,7 @@ const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
     const decode = jwtDecode(token);
-    setfirst(decode);
+    setuserProfileInfo(decode);
     console.log(decode, "");
   }, []);
 
@@ -53,9 +53,9 @@ const navigate = useNavigate();
           variant="outlined"
         >
           <Stack sx={{ textAlign: "center" }}>
-            <Typography>{`ID: ${first._id}`}</Typography>
-            <Typography>{`USERNAME: ${first.username}`}</Typography>
-            <Typography>{`ROLE: ${first.role}`}</Typography>
+            <Typography>{`ID: ${userProfileInfo._id}`}</Typography>
+            <Typography>{`USERNAME: ${userProfileInfo.username}`}</Typography>
+            <Typography>{`ROLE: ${userProfileInfo.role}`}</Typography>
           </Stack>
         </Card>
       </Stack>

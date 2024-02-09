@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 function Userdashboard() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+
   const [voteCounts, setVoteCounts] = useState({});
   const [votedOptions, setVotedOptions] = useState({});
   const [voteTest, setVoteTest] = useState(null);
@@ -21,6 +22,7 @@ function Userdashboard() {
   const pollList = useSelector((state) => state.AdminSlice.data);
   const token = localStorage.getItem("token");
   const itemsPerPage = 4;
+
   const addvoteSuccessloading = useSelector((state) => state.AddVote.isSuccess);
   useEffect(() => {}, [addvoteSuccessloading]);
   console.log(pollList, "pollListpollListpollList");
@@ -55,9 +57,9 @@ function Userdashboard() {
 
     dispatch(AddVoteApi(OptionId, OptionData, header))
       .then(() => {
-        // If the user has already voted for this poll, update their vote
+        
         if (hasVotedForPoll) {
-          // Update the previous vote count
+          
 
           const previousVoteCountKey = `${dataList.title}_${
             votedOptions[dataList.title]
@@ -112,14 +114,17 @@ function Userdashboard() {
     return <h1>Loading...</h1>;
   }
 
+  const reversedPollList = [...pollList].reverse();
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
+  const paginatedPolls = reversedPollList.slice(startIndex, endIndex);
 
   return (
     <>
       <Box>
         <UserNavbar />
-        <box>
+        <Box>
           <Typography
             variant="h4"
             sx={{
@@ -150,105 +155,101 @@ function Userdashboard() {
                 margin: "auto",
               }}
             >
-              {!pollList.loading &&
-                pollList.slice(startIndex, endIndex).map(
-                  (dataList) =>
-                    dataList.options.length > 0 && (
-                      <Typography
-                        sx={{
-                          borderRadius: 2,
-                          border: 2,
-                          borderColor: "#8c7569c7",
-                          margin: 2,
-                          width: {
-                            lg: "45%",
-                            sm: "100%",
-                          },
-                          padding: 1,
-                        }}
-                        key={dataList._id}
-                      >
-                        <Typography
-                          sx={{
-                            background: "  #8c7569c7",
-                            padding: 1,
-                          }}
-                        >
-                          <div className="pl-1">{dataList.title}</div>
-                        </Typography>
+              {paginatedPolls.map((dataList) => (
+                <Typography
+                  sx={{
+                    borderRadius: 2,
+                    border: 2,
+                    borderColor: "#8c7569c7",
+                    margin: 2,
+                    width: {
+                      lg: "45%",
+                      sm: "100%",
+                    },
+                    padding: 1,
+                  }}
+                  key={dataList._id}
+                >
+                  <Typography
+                    sx={{
+                      background: "  #8c7569c7",
+                      padding: 1,
+                    }}
+                  >
+                    <div className="pl-1">{dataList.title}</div>
+                  </Typography>
 
-                        <Typography sx={{ marginTop: 1 }}>
-                          <div>
-                            {dataList.options.map((option, i) => (
-                              <Stack
-                                direction={"column"}
-                                sx={{ background: "#d9d2ce ", marginTop: 1 }}
-                                key={i}
+                  <Typography sx={{ marginTop: 1 }}>
+                    <div>
+                      {dataList.options.map((option, i) => (
+                        <Stack
+                          direction={"column"}
+                          sx={{ background: "#d9d2ce ", marginTop: 1 }}
+                          key={i}
+                        >
+                          <Stack
+                            direction={"row"}
+                            sx={{
+                              padding: 1,
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <Typography>{option.option}</Typography>
+                            <Typography>
+                              <Button
+                                onClick={() =>
+                                  handleVote(
+                                    dataList,
+                                    dataList._id,
+                                    option.option,
+                                    i
+                                  )
+                                }
+                                variant="contained"
+                                size="small"
+                                sx={{
+                                  ml: 1,
+                                  background: "#8c7569c7",
+                                }}
+                                disabled={
+                                  disabledOptions[dataList.title] ||
+                                  (votedOptions[dataList.title] ===
+                                    dataList._id &&
+                                    i === voteTest) ||
+                                  voteCounts[
+                                    `${dataList.title}_${dataList._id}_${i}`
+                                  ] === 1
+                                }
                               >
-                                <Stack
-                                  direction={"row"}
-                                  sx={{
-                                    padding: 1,
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                  }}
-                                >
-                                  <Typography>{option.option}</Typography>
-                                  <Typography>
-                                    <Button
-                                      onClick={() =>
-                                        handleVote(
-                                          dataList,
-                                          dataList._id,
-                                          option.option,
-                                          i
-                                        )
-                                      }
-                                      variant="contained"
-                                      size="small"
-                                      sx={{
-                                        ml: 1,
-                                        background: "#8c7569c7",
-                                      }}
-                                      disabled={
-                                        disabledOptions[dataList.title] ||
-                                        (votedOptions[dataList.title] ===
-                                          dataList._id &&
-                                          i === voteTest) ||
-                                        voteCounts[
-                                          `${dataList.title}_${dataList._id}_${i}`
-                                        ] === 1
-                                      }
-                                    >
-                                      Vote{" "}
-                                      {votedOptions[dataList.title] ===
-                                        dataList._id && i === voteTest
-                                        ? 1
-                                        : 0}
-                                    </Button>
-                                  </Typography>
-                                </Stack>
-                              </Stack>
-                            ))}
-                            <Button
-                              sx={{
-                                my: 2,
-                                color: "#6f5c52",
-                                display: "block",
-                                textDecoration: "underline",
-                              }}
-                              onClick={() => viewsinglepoll(dataList._id)}
-                            >
-                              view a poll
-                            </Button>
-                          </div>
-                        </Typography>
-                      </Typography>
-                    )
-                )}
+                                Vote{" "}
+                                {votedOptions[dataList.title] ===
+                                  dataList._id && i === voteTest
+                                  ? 1
+                                  : 0}
+                              </Button>
+                            </Typography>
+                          </Stack>
+                        </Stack>
+                      ))}
+                      <Button
+                        sx={{
+                          my: 2,
+                          color: "#6f5c52",
+                          display: "block",
+                          textDecoration: "underline",
+                        }}
+                        onClick={() => viewsinglepoll(dataList._id)}
+                      >
+                        view a poll
+                      </Button>
+                    </div>
+                  </Typography>
+                </Typography>
+              ))}
             </Box>
           </Stack>
-        </box>
+        </Box>
         <Typography
           sx={{
             width: "70%",
