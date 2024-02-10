@@ -28,6 +28,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { dispatch } from "../Redux/store/store";
+import Image from '../assets/signupimg.jpg';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -90,10 +91,17 @@ const SignUp = () => {
   return (
     <>
       <ToastContainer />
-      <Box sx={{ marginTop: 5, height: 400 }}>
+      <Stack sx={{  
+       backgroundImage :` url( ${Image} )` ,
+  
+  height : '100vh',
+  width : '100%' ,
+      }}>
         <Stack
           direction={"column"}
-          sx={{ width: 500, margin: "auto", boxShadow: 3, padding: 5 }}
+          sx={{ width: 500, margin: "auto", boxShadow: 3, padding: 5 ,
+          height: 450 ,
+          background :'rgb(255 255 255)' }}
           className="form_container"
         >
           <Typography sx={{ fontWeight: "bold" }} variant="h5">
@@ -222,8 +230,8 @@ const SignUp = () => {
               <Button
                 variant="contained"
                 sx={{
-                  background:
-                    "linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)",
+                  
+                  background: 'linear-gradient(90.9deg, rgb(3, 195, 195) 0.3%, rgb(37, 84, 112) 87.8%)',
                 }}
                 type="submit"
                 disabled={buttonDisable}
@@ -233,12 +241,12 @@ const SignUp = () => {
             )}
           </Stack>
           <Box>
-            <NavLink style={{ color: "#1565c0" }} to={"/"} variant="body2">
+            <NavLink style={{ color: "#1565c0" , paddingTop : 3 }} to={"/"} variant="body2">
               Already have an account? Sign in
             </NavLink>
           </Box>
         </Stack>
-      </Box>
+      </Stack>
     </>
   );
 };

@@ -7,6 +7,7 @@ import { AddVoteApi } from "../Redux/slice/AddVote";
 import { ToastContainer, toast } from "react-toastify";
 import UserNavbar from "../component/UserNavbar";
 import "react-toastify/dist/ReactToastify.css";
+import Image from "../assets/adminimg.jpg";
 
 function Userdashboard() {
   const [loading, setLoading] = useState(false);
@@ -59,7 +60,7 @@ function Userdashboard() {
       .then(() => {
         if (hasVotedForPoll) {
           const previousVoteCountKey = `${dataList.title}_${
-            votedOptions[dataList.title]
+            votedOptions[dataList._id]
           }_vote`;
 
           const previousVoteCount =
@@ -67,7 +68,7 @@ function Userdashboard() {
           localStorage.setItem(previousVoteCountKey, previousVoteCount - 1);
         }
 
-        localStorage.setItem(`${dataList.title}_voted`, OptionData);
+        // localStorage.setItem(`${dataList.title}_voted`, OptionData);
 
         const voteCountKey = `${dataList.title}_${OptionId}_vote`;
         const currentVoteCount = localStorage.getItem(voteCountKey) || 0;
@@ -119,7 +120,15 @@ function Userdashboard() {
 
   return (
     <>
-      <Box>
+      <Box
+        sx={{
+          backgroundImage: ` url( ${Image} )`,
+          objectFit: "cover",
+          backgroundRepeat: "no-repeat",
+          height: "100vh",
+          overflow: "auto",
+        }}
+      >
         <UserNavbar />
         <Box>
           <Typography
@@ -128,7 +137,7 @@ function Userdashboard() {
               fontWeight: "bold",
               fontStyle: "italic",
               fontSize: "36px",
-              color: "#6f5c52",
+              color: "rgb(37 52 58)",
               textDecoration: "underline",
               textAlign: "center",
             }}
@@ -157,7 +166,7 @@ function Userdashboard() {
                   sx={{
                     borderRadius: 2,
                     border: 2,
-                    borderColor: "#8c7569c7",
+                    borderColor: "#3f6576",
                     margin: 2,
                     width: {
                       lg: "45%",
@@ -169,7 +178,7 @@ function Userdashboard() {
                 >
                   <Typography
                     sx={{
-                      background: "  #8c7569c7",
+                      background: "#3f6576c2",
                       padding: 1,
                     }}
                   >
@@ -181,7 +190,7 @@ function Userdashboard() {
                       {dataList.options.map((option, i) => (
                         <Stack
                           direction={"column"}
-                          sx={{ background: "#d9d2ce ", marginTop: 1 }}
+                          sx={{ background: "rgb(255 255 255)", marginTop: 1 }}
                           key={i}
                         >
                           <Stack
@@ -207,7 +216,7 @@ function Userdashboard() {
                                 size="small"
                                 sx={{
                                   ml: 1,
-                                  background: "#8c7569c7",
+                                  background: "rgb(65 94 106)",
                                 }}
                                 disabled={
                                   disabledOptions[dataList.title] ||
@@ -232,9 +241,11 @@ function Userdashboard() {
                       <Button
                         sx={{
                           my: 2,
-                          color: "#6f5c52",
+                          color: "white",
                           display: "block",
                           textDecoration: "underline",
+                          fontSize: "17px",
+                          fontWeight : 'bold'
                         }}
                         onClick={() => viewsinglepoll(dataList._id)}
                       >

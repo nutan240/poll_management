@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import { updatePoll, resetState } from "../Redux/slice/UpdateSlice";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import Image from "../assets/addpollimg.jpg";
 
 const EditPoll = () => {
   const dispatch = useDispatch();
@@ -61,7 +62,13 @@ const EditPoll = () => {
   });
 
   return (
-    <Box sx={{ background: "#a9988f7a", height: "100vh", padding: "20px" }}>
+    <Box
+      sx={{
+        backgroundImage: ` url( ${Image} )`,
+        height: "100vh",
+        padding: "20px",
+      }}
+    >
       <Box
         className="formBodyStyle"
         sx={{
@@ -80,7 +87,7 @@ const EditPoll = () => {
                 fontWeight: "bold",
                 fontStyle: "italic",
                 fontSize: "36px",
-                color: "#6f5c52",
+                color: "#255470",
                 textDecoration: "underline",
                 textAlign: "center",
               }}
@@ -100,9 +107,10 @@ const EditPoll = () => {
                 type="submit"
                 variant="contained"
                 sx={{
-                  background: "#8c7569bf",
+                  background:
+                    "linear-gradient(90.9deg, rgb(3, 195, 195) 0.3%, rgb(37, 84, 112) 87.8%)",
                   "&:hover": {
-                    background: "#6b5b51",
+                    background: "rgb(3, 195, 195)",
                   },
                 }}
               >
@@ -112,9 +120,12 @@ const EditPoll = () => {
             <Link to={"/dashboard"} width="100%">
               <Button
                 sx={{
-                  background: "#8c7569bf",
+                  background:
+                    "linear-gradient(90.9deg, rgb(3, 195, 195) 0.3%, rgb(37, 84, 112) 87.8%)",
+                  "&:hover": {
+                    background: "rgb(3, 195, 195)",
+                  },
                   width: "100%",
-                  "&:hover": { background: "#6b5b51" },
                 }}
                 variant="contained"
               >

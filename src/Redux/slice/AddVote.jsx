@@ -37,9 +37,9 @@ const AddVote = createSlice({
     updateVoteCount(state, action) {
       const { pollId, optionId, newVoteCount } = action.payload;
 
-      const poll = state.data.find((poll) => poll._id === pollId);
+      const poll = state.data.filter((poll) => poll._id === pollId);
       if (poll) {
-        const option = poll.options.find((option) => option._id === optionId);
+        const option = poll.options.filter((option) => option._id === optionId);
         if (option) {
           option.vote = newVoteCount;
         }

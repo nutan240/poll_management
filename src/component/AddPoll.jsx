@@ -6,6 +6,8 @@ import { AddPollApi, resetReducer } from "../Redux/slice/AddSlice";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Image from '../assets/addpollimg.jpg';
+
 const AddPoll = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -52,6 +54,7 @@ const AddPoll = () => {
   const formik = useFormik({
     initialValues: {
       title: "",
+      
     },
     onSubmit: (values) => {
       try {
@@ -81,8 +84,11 @@ const AddPoll = () => {
   return (
     <Box
       sx={{
-        background: "#a9988f7a",
+
+        backgroundImage :` url( ${Image} )` ,
+        // background: "#a9988f7a",
         height: "100vh",
+        overflow :'auto ',
         padding: "20px",
       }}
     >
@@ -104,7 +110,7 @@ const AddPoll = () => {
                 fontWeight: "bold",
                 fontStyle: "italic",
                 fontSize: "36px",
-                color: "#6f5c52",
+                color: "#255470",
                 textDecoration: "underline",
                 textAlign: "center",
               }}
@@ -125,7 +131,7 @@ const AddPoll = () => {
                   label={"Option " + (i + 1)}
                   name={`option`}
                   value={e.option}
-                  onChange={(event) => handleChange(event, i)}
+                  onChange={(event) => handleChange(event, i,  )}
                 />
                 {newOption.length > 2 && (
                   <Typography>
@@ -156,10 +162,9 @@ const AddPoll = () => {
                 <Button
                   variant="contained"
                   sx={{
-                    background:
-                      "linear-gradient(to top, #c79081 0%, #dfa579 100%)",
+                    background: 'linear-gradient(90.9deg, rgb(3, 195, 195) 0.3%, rgb(37, 84, 112) 87.8%)',
                     "&:hover": {
-                      background: "#6b5b51",
+                      background: "rgb(3, 195, 195)",
                     },
                   }}
                   onClick={() => increseLength()}
@@ -172,7 +177,10 @@ const AddPoll = () => {
             <Button
               variant="contained"
               sx={{
-                background: "linear-gradient(to top, #c79081 0%, #dfa579 100%)",
+                background: 'linear-gradient(90.9deg, rgb(3, 195, 195) 0.3%, rgb(37, 84, 112) 87.8%)',
+                "&:hover": {
+                      background: "rgb(3, 195, 195)",
+                    },
               }}
               type="submit"
             >

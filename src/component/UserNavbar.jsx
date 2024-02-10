@@ -63,7 +63,7 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl" sx={{ background: "#8C7569" }}>
+      <Container maxWidth="xl" sx={{ background: 'linear-gradient(90.9deg, rgb(3, 195, 195) 0.3%, rgb(37, 84, 112) 87.8%)',}}>
         <Toolbar disableGutters>
           <Typography
             variant="h6"

@@ -19,6 +19,7 @@ import { resetReducer, signInApi } from "../Redux/slice/signInSlice";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { signInScheema } from "../schemas";
+import Image from '../assets/loginimg.jpg';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -41,9 +42,9 @@ const SignIn = () => {
         navigate("/dashboard");
       }
 
-      toast.success("Sign in successful!", { autoClose: 1000 });
+     
     } else if (signinSlice.data.error === 1) {
-      toast.error("User does not exist!", { autoClose: 1000 });
+      toast.error("User does not exist!", { autoClose: 1500 });
       setButtonDisable(false);
     }
 
@@ -81,11 +82,21 @@ const SignIn = () => {
 
   return (
     <>
-      <Box sx={{ marginTop: 5 }}>
+      <Stack sx={{ 
+      
+      backgroundImage :` url( ${Image} )` ,
+  
+      height : '100vh',
+      width : '100%' ,
+
+      }}>
         <Stack
           direction={"column"}
           spacing={2}
-          sx={{ width: 500, margin: "auto", boxShadow: 3, padding: 5 }}
+          sx={{ width: 500, margin: "auto", boxShadow: 3, padding: 5 ,
+        background :'rgb(239 237 240)'
+          
+          }}
         >
           <Typography variant="h4">sign in..</Typography>
           <Stack
@@ -140,23 +151,22 @@ const SignIn = () => {
               </Box>
             ) : (
               <Button
-                variant="contained"
-                sx={{
-                  background:
-                    "linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)",
-                }}
-                type="submit"
-                disabled={buttonDisable}
-              >
-                Sign In
-              </Button>
+  variant="contained"
+  sx={{
+    background: 'linear-gradient(90.9deg, rgb(3, 195, 195) 0.3%, rgb(37, 84, 112) 87.8%)',
+  }}
+  type="submit"
+  disabled={buttonDisable}
+>
+  Sign In
+</Button>
             )}
           </Stack>
           <NavLink style={{ color: "#1565c0" }} to={"/signup"} variant="body2">
             Don't have an account? Register now
           </NavLink>
         </Stack>
-      </Box>
+      </Stack>
       <ToastContainer />
     </>
   );

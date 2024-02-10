@@ -2,6 +2,7 @@ import { Button, Card, Stack, Typography } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Image from '../assets/adminimg.jpg';
 
 const UserProfileDialog = () => {
   const [userProfileInfo, setuserProfileInfo] = useState("");
@@ -28,21 +29,25 @@ const UserProfileDialog = () => {
     <>
       <Stack
         sx={{
-          background: "#cac0ba91",
+          backgroundImage :` url( ${Image} )` ,
+  
+  
+  width : '100%' ,
+          // background: "#cac0ba91",
           height: "100vh",
         }}
       >
         <Button
           sx={{
-            my: 2,
-            color: "#8C7569",
-            display: "block",
-            paddingLeft: 3,
+            
+            color: "white",
             width: "100px",
+            fontSize : '15px' ,
+            fontWeight : 'bold'
           }}
           onClick={backtopage}
         >
-          Go back
+         Go back
         </Button>
         <Card
           sx={{
@@ -55,13 +60,22 @@ const UserProfileDialog = () => {
             alignContent: "center",
             alignItems: "center",
             height: "200px",
+            background : 'rgb(242 242 242)',
+            // color : 'white',
+            fontSize : '27px'
           }}
           variant="outlined"
         >
-          <Stack sx={{ textAlign: "center" }}>
-            <Typography>{`ID: ${userProfileInfo._id}`}</Typography>
-            <Typography>{`USERNAME: ${userProfileInfo.username}`}</Typography>
-            <Typography>{`ROLE: ${userProfileInfo.role}`}</Typography>
+          <Stack sx={{ textAlign: "center",
+           fontSize : '27px'
+          
+           }}>
+            <Typography sx={{ fontSize : '20px' ,
+            }}>{`ID: ${userProfileInfo._id}`}</Typography>
+            <Typography   sx={{ fontSize : '20px', 
+            
+            }}>{`USERNAME: ${userProfileInfo.username}`}</Typography>
+            <Typography sx={{ fontSize : '20px'}} >{`ROLE: ${userProfileInfo.role}`}</Typography>
           </Stack>
         </Card>
       </Stack>

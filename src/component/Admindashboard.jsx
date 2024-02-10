@@ -17,6 +17,7 @@ import Pagination from "@mui/material/Pagination";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Image from "../assets/adminimg.jpg";
 
 const Admin = () => {
   const dispatch = useDispatch();
@@ -55,7 +56,13 @@ const Admin = () => {
 
   return (
     <Box
-      sx={{ width: "100%", height: "100vh", overflow: "auto", margin: "auto" }}
+      sx={{
+        width: "100%",
+        height: "100vh",
+        overflow: "auto",
+        margin: "auto",
+        backgroundImage: ` url( ${Image} )`,
+      }}
     >
       <Box>
         <Navbar />
@@ -74,12 +81,14 @@ const Admin = () => {
           currentItems.map((dataList) => (
             <Typography
               sx={{
-                border: 1,
-                borderColor: "#8c7569c7",
+                border: 2,
+                borderColor: "#437287",
                 marginBottom: 1,
                 width: {
                   lg: "45%",
                   sm: "100%",
+                  background: "#8ea6ae",
+                  borderRadius: 6,
                 },
 
                 margin: 3,
@@ -92,9 +101,10 @@ const Admin = () => {
                 variant="h6"
                 textAlign={"start"}
                 sx={{
-                  background: "#8c7569c7",
+                  background: "#437287bd",
                   padding: 1,
                   justifyContent: "space-between",
+                  borderRadius: 1,
                 }}
               >
                 {dataList.title}
@@ -108,11 +118,12 @@ const Admin = () => {
                   <Stack
                     direction={"row"}
                     sx={{
-                      background: "#d9d2ce ",
+                      background: "#ffffff ",
                       display: "flex",
                       marginTop: 1,
                       padding: 1,
                       justifyContent: "space-between",
+                      borderRadius: 1,
                     }}
                     key={index}
                   >
@@ -142,9 +153,12 @@ const Admin = () => {
                 ) : (
                   <Button
                     sx={{
-                      background:
-                        "linear-gradient(111.3deg, rgb(252, 56, 56) 11.7%, rgb(237, 13, 81) 81.7%)",
+                      background: "rgb(251 17 17)",
                       color: "white",
+                      fontWeight: "bold",
+                      "&:hover": {
+                        background: "red",
+                      },
                     }}
                     onClick={() => deleteTitleData(dataList._id)}
                     variant="outlined"
@@ -176,6 +190,7 @@ const Admin = () => {
           count={Math.ceil(pollList.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
+          color="primary"
         />
       </Box>
       <ToastContainer />
