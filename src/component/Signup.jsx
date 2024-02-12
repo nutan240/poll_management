@@ -73,9 +73,9 @@ const SignUp = () => {
         ),
 
       confirm_password: Yup.string().oneOf(
-        [Yup.ref("password"), null],
-        "Passwords must match"
-      ),
+        [Yup.ref("password"), null   ],
+        "Passwords don't match"
+      ).required("Confirm your password!"),
     }),
     onSubmit: (values) => {
       try {
@@ -177,11 +177,6 @@ const SignUp = () => {
               value={formik.values.confirm_password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              helperText={
-                formik.errors.confirm_password &&
-                formik.touched.confirm_password &&
-                formik.errors.confirm_password
-              }
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -205,6 +200,18 @@ const SignUp = () => {
                 ),
               }}
             />
+            <Typography
+              variant="p"
+              sx={{
+                fontSize: "13px",
+                fontStyle: "italic",
+              }}
+              color={"red"}
+            >
+              {formik.errors.confirm_password &&
+                formik.touched.confirm_password &&
+                formik.errors.confirm_password}
+            </Typography>
 
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Role</InputLabel>
