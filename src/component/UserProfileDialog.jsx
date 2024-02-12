@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Image from '../assets/adminimg.jpg';
 
-const UserProfileDialog = () => {
+const UserProfile = () => {
   const [userProfileInfo, setuserProfileInfo] = useState("");
   const navigate = useNavigate();
   const backtopage = () => {
@@ -33,7 +33,7 @@ const UserProfileDialog = () => {
   
   
   width : '100%' ,
-          // background: "#cac0ba91",
+          
           height: "100vh",
         }}
       >
@@ -61,7 +61,6 @@ const UserProfileDialog = () => {
             alignItems: "center",
             height: "200px",
             background : 'rgb(242 242 242)',
-            // color : 'white',
             fontSize : '27px'
           }}
           variant="outlined"
@@ -83,4 +82,4 @@ const UserProfileDialog = () => {
   );
 };
 
-export default UserProfileDialog;
+export default UserProfile;

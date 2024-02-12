@@ -36,7 +36,7 @@ const Admin = () => {
     setCurrentPage(value);
   };
 
-  const deleteTitleData = (titleID) => {
+  const deletePollTitle = (titleID) => {
     dispatch(DeleteTitleApi(titleID));
     setDeleteId(titleID);
     toast.success("Title deleted successfully!", { autoClose: 1000 });
@@ -101,10 +101,11 @@ const Admin = () => {
                 variant="h6"
                 textAlign={"start"}
                 sx={{
-                  background: "#437287bd",
+                  background: "rgb(87 127 145 / 41%)",
                   padding: 1,
                   justifyContent: "space-between",
                   borderRadius: 1,
+                 
                 }}
               >
                 {dataList.title}
@@ -160,7 +161,7 @@ const Admin = () => {
                         background: "red",
                       },
                     }}
-                    onClick={() => deleteTitleData(dataList._id)}
+                    onClick={() => deletePollTitle(dataList._id)}
                     variant="outlined"
                   >
                     DELETE

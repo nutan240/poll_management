@@ -19,7 +19,7 @@ import { jwtDecode } from "jwt-decode";
 
 const settings = ["Profile",   "Logout"];
 
-function ResponsiveAppBar() {
+function ResponsiveNavBar() {
 
   const [userProfileInfo, setuserProfileInfo] = React.useState("");
 
@@ -208,4 +208,4 @@ function ResponsiveAppBar() {
   );
 }
 
-export default ResponsiveAppBar;
+export default ResponsiveNavBar;
