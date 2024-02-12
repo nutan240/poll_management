@@ -87,6 +87,7 @@ const Admin = () => {
                 width: {
                   lg: "45%",
                   sm: "100%",
+                  xs : "100%" ,
                   background: "#8ea6ae",
                   borderRadius: 6,
                 },

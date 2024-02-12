@@ -68,8 +68,7 @@ function Userdashboard() {
           localStorage.setItem(previousVoteCountKey, previousVoteCount - 1);
         }
 
-        // localStorage.setItem(`${dataList.title}_voted`, OptionData);
-
+      
         const voteCountKey = `${dataList.title}_${OptionId}_vote`;
         const currentVoteCount = localStorage.getItem(voteCountKey) || 0;
         localStorage.setItem(voteCountKey, parseInt(currentVoteCount) + 1);
@@ -171,6 +170,7 @@ function Userdashboard() {
                     width: {
                       lg: "45%",
                       sm: "100%",
+                      xs : "100%"
                     },
                     padding: 1,
                   }}

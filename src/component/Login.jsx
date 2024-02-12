@@ -86,17 +86,19 @@ const SignIn = () => {
 
           height: "100vh",
           width: "100%",
+          overflow : 'auto'
         }}
       >
         <Stack
           direction={"column"}
           spacing={2}
           sx={{
-            width: 500,
+            width: {lg : '30%' , sm :"60%" ,xs : 'auto'} ,
             margin: "auto",
             boxShadow: 3,
             padding: 5,
             background: "rgb(239 237 240)",
+            borderRadius : 2
           }}
         >
           <Typography variant="h4">sign in..</Typography>

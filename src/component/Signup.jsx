@@ -93,13 +93,13 @@ const SignUp = () => {
       <ToastContainer />
       <Stack sx={{  
        backgroundImage :` url( ${Image} )` ,
-  
+  overflow : 'auto' ,
   height : '100vh',
   width : '100%' ,
       }}>
         <Stack
           direction={"column"}
-          sx={{ width: 500, margin: "auto", boxShadow: 3, padding: 5 ,
+          sx={{ width: {lg : '30%' , sm :"60%" ,xs : 'auto'}, margin: "auto", boxShadow: 3, padding: 5 ,
           height: 450 ,
           background :'rgb(255 255 255)' }}
           className="form_container"
