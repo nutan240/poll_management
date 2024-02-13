@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Stack, Typography, Pagination } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AdminPollApi, addVote, getSuccess } from "../Redux/slice/AdminSlice";
+import { AdminPollApi, addVote } from "../Redux/slice/AdminSlice";
 import { AddVoteApi } from "../Redux/slice/AddVote";
 import { ToastContainer, toast } from "react-toastify";
 import UserNavbar from "../component/UserNavbar";
@@ -12,11 +12,7 @@ import Image from "../assets/adminimg.jpg";
 function Userdashboard() {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const [voteCounts, setVoteCounts] = useState({});
-  const [votedOptions, setVotedOptions] = useState({});
   const [voteTest, setVoteTest] = useState(null);
-  const [disabledOptions, setDisabledOptions] = useState({});
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,26 +20,18 @@ function Userdashboard() {
   const token = localStorage.getItem("token");
   const itemsPerPage = 4;
 
-  const addvoteSuccessloading = useSelector((state) => state.AddVote.isSuccess);
-  useEffect(() => {}, [addvoteSuccessloading]);
-
   useEffect(() => {
     setLoading(true);
     dispatch(AdminPollApi()).then(() => setLoading(false));
   }, [dispatch]);
 
+ 
   useEffect(() => {
-    const storeDisabledOptions = JSON.parse(
-      localStorage.getItem("disabledOptions")
-    );
-    if (storeDisabledOptions) {
-      setDisabledOptions(storeDisabledOptions);
-    }
+    const storedDisabledOptions = JSON.parse(localStorage.getItem("disabledOptions")) || {};
+    setDisabledOptions(storedDisabledOptions);
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("disabledOptions", JSON.stringify(disabledOptions));
-  }, [disabledOptions]);
+  const [disabledOptions, setDisabledOptions] = useState({});
 
   const header = {
     headers: {
@@ -51,49 +39,16 @@ function Userdashboard() {
     },
   };
 
-  const handleVote = (dataList, OptionId, OptionData, i) => {
-    setVoteTest(i);
-
-    const hasVotedForPoll = votedOptions[dataList.title];
-
-    dispatch(AddVoteApi(OptionId, OptionData, header))
-      .then(() => {
-        if (hasVotedForPoll) {
-          const previousVoteCountKey = `${dataList.title}_${
-            votedOptions[dataList._id]
-          }_vote`;
-
-          const previousVoteCount =
-            parseInt(localStorage.getItem(previousVoteCountKey)) || 0;
-          localStorage.setItem(previousVoteCountKey, previousVoteCount - 1);
-        }
-
-      
-        const voteCountKey = `${dataList.title}_${OptionId}_vote`;
-        const currentVoteCount = localStorage.getItem(voteCountKey) || 0;
-        localStorage.setItem(voteCountKey, parseInt(currentVoteCount) + 1);
-
-        setVoteCounts((prevCounts) => ({
-          ...prevCounts,
-          [OptionId]: 1,
-        }));
-
-        setVotedOptions((prevVotedOptions) => ({
-          ...prevVotedOptions,
-          [dataList.title]: OptionId,
-        }));
-
-        setDisabledOptions((prevDisabledOptions) => ({
-          ...prevDisabledOptions,
-          [`${dataList.title}_${OptionId}`]: true,
-        }));
-
-        toast.success("Your Vote has been Submitted", { autoClose: 1000 });
-      })
-      .catch((error) => {
-        console.error("Error while adding vote:", error);
-        toast.error("Failed to submit your vote. Please try again later.");
-      });
+  const handleVote = (OptionId, OptionData, OptionIndex) => {
+    dispatch(AddVoteApi(OptionId, OptionData, header));
+    // Disable the voting button
+    setDisabledOptions((prevOptions) => ({
+      ...prevOptions,
+      [OptionId]: OptionIndex,
+    }));
+    // Update local storage to store disabled options
+    localStorage.setItem("disabledOptions", JSON.stringify({ ...disabledOptions, [OptionId]: OptionIndex }));
+    toast.success("Your Vote has been Submitted", { autoClose: 1000 });
   };
 
   const viewsinglepoll = (pollId) => {
@@ -206,7 +161,6 @@ function Userdashboard() {
                               <Button
                                 onClick={() =>
                                   handleVote(
-                                    dataList,
                                     dataList._id,
                                     option.option,
                                     i
@@ -218,21 +172,9 @@ function Userdashboard() {
                                   ml: 1,
                                   background: "rgb(65 94 106)",
                                 }}
-                                disabled={
-                                  disabledOptions[dataList.title] ||
-                                  (votedOptions[dataList.title] ===
-                                    dataList._id &&
-                                    i === voteTest) ||
-                                  voteCounts[
-                                    `${dataList.title}_${dataList._id}_${i}`
-                                  ] === 1
-                                }
+                                disabled={disabledOptions[dataList._id] === i}
                               >
-                                Vote{" "}
-                                {votedOptions[dataList.title] ===
-                                  dataList._id && i === voteTest
-                                  ? 1
-                                  : 0}
+                                 {disabledOptions[dataList._id] === i ? `Vote (1)` : "Vote(0)"}
                               </Button>
                             </Typography>
                           </Stack>
@@ -281,3 +223,10 @@ function Userdashboard() {
 }
 
 export default Userdashboard;
+
+
+
+
+
+
+
